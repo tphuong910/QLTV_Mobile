@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "194004181186",
+    "project_id": "qltv-4b980",
+    "storage_bucket": "qltv-4b980.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194004181186:android:dbd5a17840421cba559b5b",
+        "android_client_info": {
+          "package_name": "com.BTCK.qltv"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChj0p4-pk2gbaX50cr-y0vXUCYCdZQLZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

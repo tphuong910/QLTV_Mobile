@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cập Nhật Thể Loại"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="30dp" />
+
+    <EditText
+        android:id="@+id/edtMaTL"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Mã Thể loại (VD: TL01)"
+        android:padding="10dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="15dp" />
+
+    <EditText
+        android:id="@+id/edtTenTL"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Tên Thể loại"
+        android:padding="10dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="15dp" />
+
+    <EditText
+        android:id="@+id/edtMoTa"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Mô tả"
+        android:padding="10dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="25dp" />
+
+    <Button
+        android:id="@+id/btnSaveTheLoai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lưu cập nhật"
+        android:textSize="18sp" />
+
+</LinearLayout>
