@@ -1,4 +1,4 @@
-package com.BTCK.qltv.login; // Nhớ giữ nguyên package của bạn
+package com.BTCK.qltv.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +24,6 @@ import android.app.AlertDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
-    // 1. Khai báo các biến giao diện
     EditText edtUsername, edtPassword;
     Button btnLogin;
     TextView tvForgotPassword;
@@ -39,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
-        // 3. Bắt sự kiện khi bấm nút Đăng Nhập
         btnLogin.setOnClickListener(v -> {
             String username = edtUsername.getText().toString().trim();
             String password = edtPassword.getText().toString().trim();
@@ -47,45 +45,35 @@ public class LoginActivity extends AppCompatActivity {
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(LoginActivity.this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
             } else {
-                // Gọi hàm xử lý đăng nhập với Firebase
                 performLogin(username, password);
             }
         });
         tvForgotPassword.setOnClickListener(v -> {
-            // Chuyển sang màn hình Khôi Phục Mật Khẩu
             Intent intent = new Intent(LoginActivity.this, RecoverPasswordActivity.class);
             startActivity(intent);
         });
     }
 
     private void performLogin(String username, String password) {
-        // Trỏ tới bảng "nhanvien" trong Firebase
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhanvien");
 
-        // Tìm kiếm nhân viên có "User" bằng với username vừa nhập
         Query checkUser = ref.orderByChild("User").equalTo(username);
 
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Nếu snapshot tồn tại (tức là tìm thấy user này)
                 if (snapshot.exists()) {
-                    // Mặc dù user là duy nhất, Firebase vẫn trả về 1 danh sách, nên ta phải dùng vòng lặp (hoặc lấy con đầu tiên)
                     for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                         String dbPassword = userSnapshot.child("Pass").getValue(String.class);
 
                         if (dbPassword != null && dbPassword.equals(password)) {
-                            // Mật khẩu ĐÚNG
                             String tenNV = userSnapshot.child("TenNV").getValue(String.class);
                             String vaiTro = userSnapshot.child("VaiTro").getValue(String.class);
 
                             Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
-                            // Lưu thông tin phiên đăng nhập vào SharedPreferences
                             saveSession(tenNV, vaiTro);
 
-                            // Chuyển sang màn hình Dashboard
-                            // LƯU Ý: Đổi tên DashboardActivity.class thành tên file Dashboard của bạn nếu bạn đặt tên khác
                             Intent intent = new Intent(LoginActivity.this, com.BTCK.qltv.dashboard.DashboardActivity.class); // Thay đổi package cho đúng nếu báo đỏ
                             startActivity(intent);
 
