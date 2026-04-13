@@ -1,8 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.BTCK.qltv">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,6 +24,9 @@
         <activity android:name=".sach.AddSachActivity" />
         <activity android:name=".sach.UpdateSachActivity" />
 
-
+        <!-- Thể Loại -->
+        <activity android:name=".theloai.TheLoaiActivity" />
+        <activity android:name=".theloai.AddTheLoaiActivity" />
+        <activity android:name=".theloai.UpdateTheLoaiActivity" />
     </application>
 </manifest>

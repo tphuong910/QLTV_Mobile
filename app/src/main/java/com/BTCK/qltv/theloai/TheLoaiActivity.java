@@ -1,19 +1,20 @@
-package com.BTCK.qltv.sach;
+package com.BTCK.qltv.theloai;
 
 import android.app.AlertDialog;
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.AdapterView;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.BTCK.qltv.R;
@@ -22,15 +23,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SachActivity extends AppCompatActivity {
+public class TheLoaiActivity extends AppCompatActivity {
 
     EditText edtSearch;
     ImageButton btnAdd;
     ListView lvData;
 
-    SachQuery sachQuery;
-    List<Sach> listGoc = new ArrayList<>();
-    List<Sach> listHienThi = new ArrayList<>();
+    TheLoaiQuery theLoaiQuery;
+    List<TheLoai> listGoc = new ArrayList<>();
+    List<TheLoai> listHienThi = new ArrayList<>();
 
     ArrayAdapter<String> adapter;
     List<String> listHienThiString = new ArrayList<>();
@@ -40,12 +41,12 @@ public class SachActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sach);
+        setContentView(R.layout.activity_the_loai);
 
         edtSearch = findViewById(R.id.edtSearch);
         btnAdd = findViewById(R.id.btnAdd);
         lvData = findViewById(R.id.lvData);
-        sachQuery = new SachQuery(this);
+        theLoaiQuery = new TheLoaiQuery(this);
 
         findViewById(R.id.imgBack).setOnClickListener(v -> finish());
 
@@ -66,7 +67,7 @@ public class SachActivity extends AppCompatActivity {
         });
 
         btnAdd.setOnClickListener(v -> {
-            startActivity(new Intent(SachActivity.this, AddSachActivity.class));
+            startActivity(new Intent(TheLoaiActivity.this, AddTheLoaiActivity.class));
         });
 
         registerForContextMenu(lvData);
@@ -80,7 +81,7 @@ public class SachActivity extends AppCompatActivity {
 
     private void loadData() {
         listGoc.clear();
-        listGoc.addAll(sachQuery.layDanhSachSach());
+        listGoc.addAll(theLoaiQuery.layDanhSachTheLoai());
         filterData(edtSearch.getText().toString().trim());
     }
 
@@ -90,11 +91,11 @@ public class SachActivity extends AppCompatActivity {
         listHienThi.clear();
         listHienThiString.clear();
 
-        for (Sach sach : listGoc) {
-            String tenSach = sach.getTenSach() == null ? "" : sach.getTenSach();
-            if (tuKhoa.isEmpty() || tenSach.toLowerCase(Locale.getDefault()).contains(tuKhoa)) {
-                listHienThi.add(sach);
-                listHienThiString.add(sach.getMaSach() + " - " + tenSach + " (SL: " + sach.getSoLuong() + ")");
+        for (TheLoai tl : listGoc) {
+            String tenTL = tl.getTenTL() == null ? "" : tl.getTenTL();
+            if (tuKhoa.isEmpty() || tenTL.toLowerCase(Locale.getDefault()).contains(tuKhoa)) {
+                listHienThi.add(tl);
+                listHienThiString.add(tenTL + " (" + tl.getMaTL() + ")");
             }
         }
 
@@ -115,27 +116,20 @@ public class SachActivity extends AppCompatActivity {
             return super.onContextItemSelected(item);
         }
 
-        Sach sachEdit = listHienThi.get(selectedPosition);
+        TheLoai tlEdit = listHienThi.get(selectedPosition);
 
         if (item.getItemId() == R.id.menu_update) {
-            Intent intent = new Intent(SachActivity.this, UpdateSachActivity.class);
-            intent.putExtra("maSach", sachEdit.getMaSach());
-            intent.putExtra("tenSach", sachEdit.getTenSach());
-            intent.putExtra("soLuong", sachEdit.getSoLuong());
-            intent.putExtra("namXB", sachEdit.getNamXB());
-            intent.putExtra("maTL", sachEdit.getMaTL());
-            intent.putExtra("maTG", sachEdit.getMaTG());
-            intent.putExtra("maNXB", sachEdit.getMaNXB());
-            intent.putExtra("maNN", sachEdit.getMaNN());
-            intent.putExtra("maViTri", sachEdit.getMaViTri());
+            Intent intent = new Intent(TheLoaiActivity.this, UpdateTheLoaiActivity.class);
+            intent.putExtra("maTL", tlEdit.getMaTL());
+            intent.putExtra("tenTL", tlEdit.getTenTL());
             startActivity(intent);
 
         } else if (item.getItemId() == R.id.menu_delete) {
             new AlertDialog.Builder(this)
                     .setTitle("Xác nhận xóa")
-                    .setMessage("Bạn có chắc xóa Sách này?")
+                    .setMessage("Bạn có chắc xóa Thể Loại này?")
                     .setPositiveButton("Có", (dialog, which) -> {
-                        boolean deleted = sachQuery.xoaSach(sachEdit.getMaSach());
+                        boolean deleted = theLoaiQuery.xoaTheLoai(tlEdit.getMaTL());
                         if (deleted) {
                             Toast.makeText(this, "Đã xóa!", Toast.LENGTH_SHORT).show();
                             loadData();

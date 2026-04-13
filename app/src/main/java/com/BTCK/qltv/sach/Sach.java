@@ -1,94 +1,100 @@
 package com.BTCK.qltv.sach;
 
 public class Sach {
-    private String id;
-
-    private String MaTG;
-    private String MaNXB;
-    private String MaTL;
-    private String TenSach;
-    private String MaNN;
-    private String MaViTri;
-    private int NamXB;
-    private int SoLuong;
+    private String maSach;
+    private String maTG;
+    private String maNXB;
+    private String maTL;
+    private String tenSach;
+    private String maNN;
+    private String maViTri;
+    private int namXB;
+    private int soLuong;
 
     public Sach() {
     }
 
-    public Sach(String id, String maTG, String maNXB, String maTL, String tenSach, String maNN, String maViTri, int namXB, int soLuong) {
-        this.id = id;
-        MaTG = maTG;
-        MaNXB = maNXB;
-        MaTL = maTL;
-        TenSach = tenSach;
-        MaNN = maNN;
-        MaViTri = maViTri;
-        NamXB = namXB;
-        SoLuong = soLuong;
+    public Sach(String maSach, String maTG, String maNXB, String maTL, String tenSach, String maNN, String maViTri, int namXB, int soLuong) {
+        this.maSach = maSach;
+        this.maTG = maTG;
+        this.maNXB = maNXB;
+        this.maTL = maTL;
+        this.tenSach = tenSach;
+        this.maNN = maNN;
+        this.maViTri = maViTri;
+        this.namXB = namXB;
+        this.soLuong = soLuong;
     }
 
-    public String getId() {
-        return id;
+    public String getMaSach() {
+        return maSach;
     }
-    public void setId(String id) {
-        this.id = id;
+
+    public void setMaSach(String maSach) {
+        this.maSach = maSach;
     }
 
     public String getMaTG() {
-        return MaTG;
+        return maTG;
     }
-    public void setMaTG(String maTG) {
 
-        MaTG = maTG;
+    public void setMaTG(String maTG) {
+        this.maTG = maTG;
     }
 
     public String getMaNXB() {
-
-        return MaNXB;
+        return maNXB;
     }
+
     public void setMaNXB(String maNXB) {
-        MaNXB = maNXB;
+        this.maNXB = maNXB;
     }
 
     public String getMaTL() {
-        return MaTL;
+        return maTL;
     }
+
     public void setMaTL(String maTL) {
-        MaTL = maTL;
+        this.maTL = maTL;
     }
 
     public String getTenSach() {
-        return TenSach;
+        return tenSach;
     }
+
     public void setTenSach(String tenSach) {
-        TenSach = tenSach;
+        this.tenSach = tenSach;
     }
 
     public String getMaNN() {
-        return MaNN;
+        return maNN;
     }
+
     public void setMaNN(String maNN) {
-        MaNN = maNN;
+        this.maNN = maNN;
     }
 
     public String getMaViTri() {
-        return MaViTri;
+        return maViTri;
     }
+
     public void setMaViTri(String maViTri) {
-        MaViTri = maViTri;
+        this.maViTri = maViTri;
     }
 
     public int getNamXB() {
-        return NamXB;
+        return namXB;
     }
+
     public void setNamXB(int namXB) {
-        NamXB = namXB;
+        this.namXB = namXB;
     }
 
     public int getSoLuong() {
-        return SoLuong;
+        return soLuong;
     }
+
     public void setSoLuong(int soLuong) {
-        SoLuong = soLuong;
+        this.soLuong = soLuong;
     }
 }

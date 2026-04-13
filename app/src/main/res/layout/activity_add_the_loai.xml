@@ -18,9 +18,11 @@
         android:id="@+id/edtMaTL"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Mã Thể loại (VD: TL01)"
+        android:hint="Mã Thể loại (Tự động tăng)"
         android:padding="10dp"
         android:background="#E0E0E0"
+        android:enabled="false"
+        android:textColor="#888888"
         android:layout_marginBottom="15dp" />
 
     <EditText
@@ -28,15 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Tên Thể loại"
-        android:padding="10dp"
-        android:background="#E0E0E0"
-        android:layout_marginBottom="15dp" />
-
-    <EditText
-        android:id="@+id/edtMoTa"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Mô tả"
         android:padding="10dp"
         android:background="#E0E0E0"
         android:layout_marginBottom="25dp" />

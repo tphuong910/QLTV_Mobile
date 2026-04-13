@@ -21,11 +21,21 @@
         <EditText android:id="@+id/edtTenSach" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Tên sách" android:inputType="text" android:layout_marginBottom="10dp" android:padding="10dp" android:background="#E0E0E0" />
         <EditText android:id="@+id/edtSoLuong" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Số lượng (VD: 20)" android:inputType="number" android:layout_marginBottom="10dp" android:padding="10dp" android:background="#E0E0E0" />
         <EditText android:id="@+id/edtNamXB" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Năm XB (VD: 2021)" android:inputType="number" android:layout_marginBottom="10dp" android:padding="10dp" android:background="#E0E0E0" />
-        <EditText android:id="@+id/edtMaTL" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Mã Thể Loại (VD: TL006)" android:layout_marginBottom="10dp" android:padding="10dp" android:background="#E0E0E0" />
-        <EditText android:id="@+id/edtMaTG" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Mã Tác Giả (VD: TG005)" android:layout_marginBottom="10dp" android:padding="10dp" android:background="#E0E0E0" />
-        <EditText android:id="@+id/edtMaNXB" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Mã NXB (VD: NXB001)" android:layout_marginBottom="10dp" android:padding="10dp" android:background="#E0E0E0" />
-        <EditText android:id="@+id/edtMaNN" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Mã Ngôn Ngữ (VD: NN001)" android:layout_marginBottom="10dp" android:padding="10dp" android:background="#E0E0E0" />
-        <EditText android:id="@+id/edtMaViTri" android:layout_width="match_parent" android:layout_height="50dp" android:hint="Mã Vị Trí Kệ (VD: KS001)" android:layout_marginBottom="10dp" android:padding="10dp" android:background="#E0E0E0" />
+        
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Thể loại" android:textStyle="bold" android:layout_marginBottom="5dp"/>
+        <Spinner android:id="@+id/spnMaTL" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginBottom="10dp" android:background="#E0E0E0" />
+        
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Tác giả" android:textStyle="bold" android:layout_marginBottom="5dp"/>
+        <Spinner android:id="@+id/spnMaTG" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginBottom="10dp" android:background="#E0E0E0" />
+        
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nhà xuất bản" android:textStyle="bold" android:layout_marginBottom="5dp"/>
+        <Spinner android:id="@+id/spnMaNXB" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginBottom="10dp" android:background="#E0E0E0" />
+        
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Ngôn ngữ" android:textStyle="bold" android:layout_marginBottom="5dp"/>
+        <Spinner android:id="@+id/spnMaNN" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginBottom="10dp" android:background="#E0E0E0" />
+        
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Vị trí kệ" android:textStyle="bold" android:layout_marginBottom="5dp"/>
+        <Spinner android:id="@+id/spnMaViTri" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginBottom="10dp" android:background="#E0E0E0" />
 
         <Button
             android:id="@+id/btnSaveSach"
