@@ -28,5 +28,27 @@
         <activity android:name=".theloai.TheLoaiActivity" />
         <activity android:name=".theloai.AddTheLoaiActivity" />
         <activity android:name=".theloai.UpdateTheLoaiActivity" />
+
+        <!-- Ngôn Ngữ -->
+        <activity android:name=".ngonngu.NgonNguActivity" />
+        <activity android:name=".ngonngu.AddNgonNguActivity" />
+        <activity android:name=".ngonngu.UpdateNgonNguActivity" />
+
+        <!-- Tác Giả -->
+        <activity android:name=".tacgia.TacGiaActivity" />
+        <activity android:name=".tacgia.AddTacGiaActivity" />
+        <activity android:name=".tacgia.UpdateTacGiaActivity" />
+
+        <!-- Lớp -->
+        <activity android:name=".lop.LopActivity" />
+        <activity android:name=".lop.AddLopActivity" />
+        <activity android:name=".lop.UpdateLopActivity" />
+
+        <!-- Nhân Viên -->
+        <activity android:name=".nhanvien.NhanVienActivity" />
+
+
+        <!-- Kệ Sách -->
+        <activity android:name=".kesach.KeSachActivity" />
     </application>
 </manifest>
