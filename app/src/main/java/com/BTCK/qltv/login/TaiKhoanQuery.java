@@ -43,15 +43,14 @@ public class TaiKhoanQuery {
 
     public boolean doiMatKhau(String user, String email, String passMoi) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("Pass", passMoi);
 
-        int row = db.update(
-                "nhanvien",
-                values,
-                "User = ? AND Email = ?",
-                new String[]{user, email}
-        );
-        return row > 0;
+        try {
+            String sql = "UPDATE nhanvien SET Pass = ? WHERE User = ? AND Email = ?";
+            db.execSQL(sql, new Object[]{passMoi, user, email});
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

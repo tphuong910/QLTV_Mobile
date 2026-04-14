@@ -3,6 +3,7 @@ package com.BTCK.qltv.dashboard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,8 +14,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.BTCK.qltv.R;
+import com.BTCK.qltv.kesach.KeSachActivity;
 import com.BTCK.qltv.login.LoginActivity;
 import com.BTCK.qltv.ngonngu.NgonNguActivity;
+import com.BTCK.qltv.nhanvien.NhanVienActivity;
 import com.BTCK.qltv.sach.SachActivity;
 import com.BTCK.qltv.theloai.TheLoaiActivity;
 import com.BTCK.qltv.tacgia.TacGiaActivity;
@@ -129,6 +132,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void showPopupMenu() {
         PopupMenu popupMenu = new PopupMenu(this, imgMenu);
+        popupMenu.getMenu().add("Liên hệ quản lý");
         popupMenu.getMenu().add("Đăng xuất");
         popupMenu.setOnMenuItemClickListener(item -> {
             if (item.getTitle().equals("Đăng xuất")) {
@@ -137,6 +141,11 @@ public class DashboardActivity extends AppCompatActivity {
 
                 startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
                 finish();
+            } else if (item.getTitle().equals("Liên hệ quản lý")) {
+                String soDienThoai = "0987654321";
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:" + soDienThoai));
+                startActivity(callIntent);
             }
             return true;
         });
