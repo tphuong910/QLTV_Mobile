@@ -18,7 +18,7 @@
 
         <activity android:name=".dashboard.DashboardActivity" />
         <activity android:name=".login.RecoverPasswordActivity" />
-        
+
         <!-- Sách -->
         <activity android:name=".sach.SachActivity" />
         <activity android:name=".sach.AddSachActivity" />
@@ -28,11 +28,5 @@
         <activity android:name=".theloai.TheLoaiActivity" />
         <activity android:name=".theloai.AddTheLoaiActivity" />
         <activity android:name=".theloai.UpdateTheLoaiActivity" />
-
-        <!-- Kệ Sách -->
-        <activity android:name=".kesach.KeSachActivity" />
-
-        <!-- Nhân Viên -->
-        <activity android:name=".nhanvien.NhanVienActivity" />
     </application>
 </manifest>

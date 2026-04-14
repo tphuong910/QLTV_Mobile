@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/txtTenTG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên tác giả"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#333333"/>
+
+    <TextView
+        android:id="@+id/txtThongTinTG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Năm sinh - Giới tính - Quốc tịch"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/txtMaTG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mã: TG001"
+        android:textSize="12sp"
+        android:textColor="#999999"/>
+</LinearLayout>

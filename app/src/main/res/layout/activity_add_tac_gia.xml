@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/imgCloseAddTG"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:padding="8dp"
+        android:contentDescription="Đóng" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/tvTitleTG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thêm Tác Giả"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="30dp" />
+
+            <EditText
+                android:id="@+id/etMaTG"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Mã Tác Giả"
+                android:padding="10dp"
+                android:background="#E0E0E0"
+                android:enabled="false"
+                android:textColor="#888888"
+                android:layout_marginBottom="15dp" />
+
+            <EditText
+                android:id="@+id/etTenTG"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Tên Tác Giả"
+                android:padding="10dp"
+                android:background="#E0E0E0"
+                android:layout_marginBottom="15dp" />
+
+            <EditText
+                android:id="@+id/etNamSinhTG"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Năm Sinh"
+                android:padding="10dp"
+                android:background="#E0E0E0"
+                android:inputType="number"
+                android:layout_marginBottom="15dp" />
+
+            <EditText
+                android:id="@+id/etGioiTinhTG"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Giới Tính"
+                android:padding="10dp"
+                android:background="#E0E0E0"
+                android:layout_marginBottom="15dp" />
+
+            <EditText
+                android:id="@+id/etQuocTichTG"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Quốc Tịch"
+                android:padding="10dp"
+                android:background="#E0E0E0"
+                android:layout_marginBottom="25dp" />
+
+            <Button
+                android:id="@+id/btnLuuTG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LƯU LẠI"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
