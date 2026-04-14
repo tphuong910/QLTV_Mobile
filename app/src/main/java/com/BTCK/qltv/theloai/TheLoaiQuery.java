@@ -40,12 +40,14 @@ public class TheLoaiQuery {
 
     public boolean themTheLoai(TheLoai theLoai) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("MaTL", theLoai.getMaTL());
-        values.put("TenTL", theLoai.getTenTL());
-
-        long row = db.insert("theloai", null, values);
-        return row != -1;
+        try {
+            db.execSQL("INSERT INTO theloai (MaTL, TenTL) VALUES (?, ?)",
+                    new Object[]{theLoai.getMaTL(), theLoai.getTenTL()});
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public String taoMaTheLoaiMoi() {
@@ -72,17 +74,24 @@ public class TheLoaiQuery {
 
     public boolean suaTheLoai(String maCu, TheLoai theLoai) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("MaTL", theLoai.getMaTL());
-        values.put("TenTL", theLoai.getTenTL());
-
-        int row = db.update("theloai", values, "MaTL = ?", new String[]{maCu});
-        return row > 0;
+        try {
+            db.execSQL("UPDATE theloai SET MaTL = ?, TenTL = ? WHERE MaTL = ?",
+                    new Object[]{theLoai.getMaTL(), theLoai.getTenTL(), maCu});
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean xoaTheLoai(String maTL) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        int row = db.delete("theloai", "MaTL = ?", new String[]{maTL});
-        return row > 0;
+        try {
+            db.execSQL("DELETE FROM theloai WHERE MaTL = ?", new Object[]{maTL});
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
