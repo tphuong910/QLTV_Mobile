@@ -14,8 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.BTCK.qltv.R;
 import com.BTCK.qltv.login.LoginActivity;
+import com.BTCK.qltv.ngonngu.NgonNguActivity;
 import com.BTCK.qltv.sach.SachActivity;
 import com.BTCK.qltv.theloai.TheLoaiActivity;
+import com.BTCK.qltv.tacgia.TacGiaActivity;
+import com.BTCK.qltv.lop.LopActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +104,15 @@ public class DashboardActivity extends AppCompatActivity {
                     break;
                 case 1:
                     startActivity(new Intent(DashboardActivity.this, TheLoaiActivity.class));
+                    break;
+                case 2:
+                    startActivity(new Intent(DashboardActivity.this, TacGiaActivity.class));
+                    break;
+                case 4:
+                    startActivity(new Intent(DashboardActivity.this, LopActivity.class));
+                    break;
+                case 9:
+                    startActivity(new Intent(DashboardActivity.this, NgonNguActivity.class));
                     break;
                 default:
                     Toast.makeText(this, "Chức năng đang phát triển!", Toast.LENGTH_SHORT).show();

@@ -50,9 +50,9 @@ public class UpdateSachActivity extends AppCompatActivity {
 
         // Load dữ liệu lên Spinner và tự động chọn giá trị đã lưu
         loadSpinnerData(spnMaTL, "theloai", "MaTL", "TenTL", getIntent().getStringExtra("maTL"));
-        loadSpinnerData(spnMaTG, "tacgia", "MaTG", "TenTG", getIntent().getStringExtra("maTG"));
+        loadSpinnerData(spnMaTG, "com/BTCK/qltv/tacgia", "MaTG", "TenTG", getIntent().getStringExtra("maTG"));
         loadSpinnerData(spnMaNXB, "nhaxuatban", "MaNXB", "TenNXB", getIntent().getStringExtra("maNXB"));
-        loadSpinnerData(spnMaNN, "ngonngu", "MaNN", "TenNN", getIntent().getStringExtra("maNN"));
+        loadSpinnerData(spnMaNN, "com/BTCK/qltv/ngonngu", "MaNN", "TenNN", getIntent().getStringExtra("maNN"));
         loadSpinnerData(spnMaViTri, "kesach", "MaViTri", "TenKe", getIntent().getStringExtra("maViTri"));
 
         btnSaveSach.setOnClickListener(v -> {

@@ -46,9 +46,9 @@ public class AddSachActivity extends AppCompatActivity {
 
         // Load dữ liệu lên các Spinner
         loadSpinnerData(spnMaTL, "theloai", "MaTL", "TenTL", null);
-        loadSpinnerData(spnMaTG, "tacgia", "MaTG", "TenTG", null);
+        loadSpinnerData(spnMaTG, "com/BTCK/qltv/tacgia", "MaTG", "TenTG", null);
         loadSpinnerData(spnMaNXB, "nhaxuatban", "MaNXB", "TenNXB", null);
-        loadSpinnerData(spnMaNN, "ngonngu", "MaNN", "TenNN", null);
+        loadSpinnerData(spnMaNN, "com/BTCK/qltv/ngonngu", "MaNN", "TenNN", null);
         loadSpinnerData(spnMaViTri, "kesach", "MaViTri", "TenKe", null);
 
         btnSaveSach.setOnClickListener(v -> {
