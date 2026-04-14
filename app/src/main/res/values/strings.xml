@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">QLTV</string>
+    <string-array name="gioi_tinh">
+        <item>Nam</item>
+        <item>Nữ</item>
+    </string-array>
+    <string-array name="vai_tro">
+        <item>Quản lý</item>
+        <item>Thủ thư</item>
+    </string-array>
 </resources>
