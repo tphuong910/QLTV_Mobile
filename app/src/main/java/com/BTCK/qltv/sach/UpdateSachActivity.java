@@ -25,6 +25,13 @@ public class UpdateSachActivity extends AppCompatActivity {
     SachQuery sachQuery;
     String maSach;
 
+    // Các danh sách dùng để lưu Mã tương ứng với dữ liệu trên Spinner
+    ArrayList<String> dsMaTL = new ArrayList<>();
+    ArrayList<String> dsMaTG = new ArrayList<>();
+    ArrayList<String> dsMaNXB = new ArrayList<>();
+    ArrayList<String> dsMaNN = new ArrayList<>();
+    ArrayList<String> dsMaViTri = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +40,7 @@ public class UpdateSachActivity extends AppCompatActivity {
         edtTenSach = findViewById(R.id.edtTenSach);
         edtSoLuong = findViewById(R.id.edtSoLuong);
         edtNamXB = findViewById(R.id.edtNamXB);
-        
+
         spnMaTL = findViewById(R.id.spnMaTL);
         spnMaTG = findViewById(R.id.spnMaTG);
         spnMaNXB = findViewById(R.id.spnMaNXB);
@@ -48,12 +55,12 @@ public class UpdateSachActivity extends AppCompatActivity {
         edtSoLuong.setText(String.valueOf(getIntent().getIntExtra("soLuong", 0)));
         edtNamXB.setText(String.valueOf(getIntent().getIntExtra("namXB", 0)));
 
-        // Load dữ liệu lên Spinner và tự động chọn giá trị đã lưu
-        loadSpinnerData(spnMaTL, "theloai", "MaTL", "TenTL", getIntent().getStringExtra("maTL"));
-        loadSpinnerData(spnMaTG, "tacgia", "MaTG", "TenTG", getIntent().getStringExtra("maTG"));
-        loadSpinnerData(spnMaNXB, "nhaxuatban", "MaNXB", "TenNXB", getIntent().getStringExtra("maNXB"));
-        loadSpinnerData(spnMaNN, "ngonngu", "MaNN", "TenNN", getIntent().getStringExtra("maNN"));
-        loadSpinnerData(spnMaViTri, "kesach", "MaViTri", "TenKe", getIntent().getStringExtra("maViTri"));
+        // Load dữ liệu lên Spinner và lưu mã vào các danh sách song song
+        loadSpinnerData(spnMaTL, "theloai", "MaTL", "TenTL", dsMaTL, getIntent().getStringExtra("maTL"));
+        loadSpinnerData(spnMaTG, "tacgia", "MaTG", "TenTG", dsMaTG, getIntent().getStringExtra("maTG"));
+        loadSpinnerData(spnMaNXB, "nhaxuatban", "MaNXB", "TenNXB", dsMaNXB, getIntent().getStringExtra("maNXB"));
+        loadSpinnerData(spnMaNN, "ngonngu", "MaNN", "TenNN", dsMaNN, getIntent().getStringExtra("maNN"));
+        loadSpinnerData(spnMaViTri, "kesach", "MaViTri", "TenKe", dsMaViTri, getIntent().getStringExtra("maViTri"));
 
         btnSaveSach.setOnClickListener(v -> {
             String ten = edtTenSach.getText().toString().trim();
@@ -70,12 +77,12 @@ public class UpdateSachActivity extends AppCompatActivity {
                 return;
             }
 
-            // Lấy ID từ Spinner
-            String maTL = ((SpinnerItem) spnMaTL.getSelectedItem()).getId();
-            String maTG = ((SpinnerItem) spnMaTG.getSelectedItem()).getId();
-            String maNXB = ((SpinnerItem) spnMaNXB.getSelectedItem()).getId();
-            String maNN = ((SpinnerItem) spnMaNN.getSelectedItem()).getId();
-            String maViTri = ((SpinnerItem) spnMaViTri.getSelectedItem()).getId();
+            // Lấy Mã (ID) từ các danh sách thông qua vị trí mà người dùng chọn trên Spinner
+            String maTL = dsMaTL.get(spnMaTL.getSelectedItemPosition());
+            String maTG = dsMaTG.get(spnMaTG.getSelectedItemPosition());
+            String maNXB = dsMaNXB.get(spnMaNXB.getSelectedItemPosition());
+            String maNN = dsMaNN.get(spnMaNN.getSelectedItemPosition());
+            String maViTri = dsMaViTri.get(spnMaViTri.getSelectedItemPosition());
 
             int soLuongMoi;
             int namXBMoi;
@@ -99,19 +106,22 @@ public class UpdateSachActivity extends AppCompatActivity {
         });
     }
 
-    private void loadSpinnerData(Spinner spinner, String tableName, String idCol, String nameCol, String selectedId) {
+    private void loadSpinnerData(Spinner spinner, String tableName, String idCol, String nameCol, ArrayList<String> dsMa, String selectedId) {
         SQLiteHelper dbHelper = new SQLiteHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT " + idCol + ", " + nameCol + " FROM " + tableName, null);
 
-        List<SpinnerItem> list = new ArrayList<>();
+        ArrayList<String> dsTen = new ArrayList<>();
+        dsMa.clear();
         int selectedIndex = 0;
         int currentIndex = 0;
 
         while (cursor.moveToNext()) {
             String id = cursor.getString(0);
             String name = cursor.getString(1);
-            list.add(new SpinnerItem(id, name));
+
+            dsMa.add(id);   // Lưu Mã (ID) vào danh sách ẩn
+            dsTen.add(name); // Lưu Tên vào danh sách để hiện lên Spinner
 
             if (selectedId != null && id.equals(selectedId)) {
                 selectedIndex = currentIndex;
@@ -123,11 +133,13 @@ public class UpdateSachActivity extends AppCompatActivity {
         db.close();
         dbHelper.close();
 
-        if (list.isEmpty()) {
-            list.add(new SpinnerItem("", "-- Trống --"));
+        if (dsMa.isEmpty()) {
+            dsMa.add("");
+            dsTen.add("-- Trống --");
         }
 
-        ArrayAdapter<SpinnerItem> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        // Tạo ArrayAdapter cơ bản kiểu chuỗi giống như trong video hướng dẫn
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dsTen);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 

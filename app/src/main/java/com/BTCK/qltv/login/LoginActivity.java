@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        //ánh xạ từ giao diện
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -57,13 +57,15 @@ public class LoginActivity extends AppCompatActivity {
 
         Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
         saveSession(userInfo.tenNhanVien, userInfo.vaiTro);
-
         Intent intent = new Intent(LoginActivity.this, com.BTCK.qltv.dashboard.DashboardActivity.class);
         startActivity(intent);
         finish();
     }
 
     private void saveSession(String ten, String vaiTro) {
+        //SharedPreferences là cơ chế lưu trữ, chuyển màn thì vẫn biết là ai đang đăng nhập
+        // UserSession Là tên file xml tạm để lưu session
+        // Context.MODE_PRIVATE là chế độ bảo mật chỉ qltv mới đọc được
         SharedPreferences sharedPreferences = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("TenNV", ten);

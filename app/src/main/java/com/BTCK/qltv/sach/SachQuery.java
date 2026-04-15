@@ -72,40 +72,36 @@ public class SachQuery {
 
     public boolean themSach(Sach sach) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("MaSach", sach.getMaSach());
-        values.put("MaTG", sach.getMaTG());
-        values.put("MaNXB", sach.getMaNXB());
-        values.put("MaTL", sach.getMaTL());
-        values.put("TenSach", sach.getTenSach());
-        values.put("NamXB", sach.getNamXB());
-        values.put("SoLuong", sach.getSoLuong());
-        values.put("MaNN", sach.getMaNN());
-        values.put("MaViTri", sach.getMaViTri());
-
-        long row = db.insert("sach", null, values);
-        return row != -1;
+        try {
+            db.execSQL("INSERT INTO sach (MaSach, MaTG, MaNXB, MaTL, TenSach, NamXB, SoLuong, MaNN, MaViTri) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    new Object[]{sach.getMaSach(), sach.getMaTG(), sach.getMaNXB(), sach.getMaTL(), sach.getTenSach(), sach.getNamXB(), sach.getSoLuong(), sach.getMaNN(), sach.getMaViTri()});
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean suaSach(Sach sach) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("MaTG", sach.getMaTG());
-        values.put("MaNXB", sach.getMaNXB());
-        values.put("MaTL", sach.getMaTL());
-        values.put("TenSach", sach.getTenSach());
-        values.put("NamXB", sach.getNamXB());
-        values.put("SoLuong", sach.getSoLuong());
-        values.put("MaNN", sach.getMaNN());
-        values.put("MaViTri", sach.getMaViTri());
-
-        int row = db.update("sach", values, "MaSach = ?", new String[]{sach.getMaSach()});
-        return row > 0;
+        try {
+            db.execSQL("UPDATE sach SET MaTG = ?, MaNXB = ?, MaTL = ?, TenSach = ?, NamXB = ?, SoLuong = ?, MaNN = ?, MaViTri = ? WHERE MaSach = ?",
+                    new Object[]{sach.getMaTG(), sach.getMaNXB(), sach.getMaTL(), sach.getTenSach(), sach.getNamXB(), sach.getSoLuong(), sach.getMaNN(), sach.getMaViTri(), sach.getMaSach()});
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean xoaSach(String maSach) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        int row = db.delete("sach", "MaSach = ?", new String[]{maSach});
-        return row > 0;
+        try {
+            db.execSQL("DELETE FROM sach WHERE MaSach = ?", new Object[]{maSach});
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

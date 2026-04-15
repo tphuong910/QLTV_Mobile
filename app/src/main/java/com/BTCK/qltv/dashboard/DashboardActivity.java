@@ -3,6 +3,7 @@ package com.BTCK.qltv.dashboard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,12 +14,20 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.BTCK.qltv.R;
+import com.BTCK.qltv.kesach.KeSachActivity;
 import com.BTCK.qltv.login.LoginActivity;
+import com.BTCK.qltv.ngonngu.NgonNguActivity;
+import com.BTCK.qltv.nhanvien.NhanVienActivity;
 import com.BTCK.qltv.sach.SachActivity;
 import com.BTCK.qltv.theloai.TheLoaiActivity;
+
 // KẾT NỐI VỚI NXB VÀ KHOA
 import com.BTCK.qltv.nhaxuatban.NhaXuatBanActivity;
 import com.BTCK.qltv.khoa.KhoaActivity;
+
+import com.BTCK.qltv.tacgia.TacGiaActivity;
+import com.BTCK.qltv.lop.LopActivity;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +114,7 @@ public class DashboardActivity extends AppCompatActivity {
                 case 1:
                     startActivity(new Intent(DashboardActivity.this, TheLoaiActivity.class));
                     break;
+
                 // ĐÂY LÀ ĐOẠN ĐƯỢC THÊM VÀO CHO KHOA (VỊ TRÍ SỐ 3)
                 case 3:
                     startActivity(new Intent(DashboardActivity.this, KhoaActivity.class));
@@ -112,6 +122,22 @@ public class DashboardActivity extends AppCompatActivity {
                 // ĐÂY LÀ ĐOẠN ĐƯỢC THÊM VÀO CHO NHÀ XUẤT BẢN (VỊ TRÍ SỐ 6)
                 case 6:
                     startActivity(new Intent(DashboardActivity.this, NhaXuatBanActivity.class));
+
+                case 2:
+                    startActivity(new Intent(DashboardActivity.this, TacGiaActivity.class));
+                    break;
+                case 4:
+                    startActivity(new Intent(DashboardActivity.this, LopActivity.class));
+                    break;
+                case 9:
+                    startActivity(new Intent(DashboardActivity.this, NgonNguActivity.class));
+                    break;
+                case 5: // Giả sử "Quản lý nhân viên" ở vị trí thứ 5 trong danh sách của bạn
+                    startActivity(new Intent(DashboardActivity.this, NhanVienActivity.class));
+                    break;
+                case 8: // Vị trí của "Quản lý kệ sách" trong moduleList
+                    startActivity(new Intent(DashboardActivity.this, KeSachActivity.class));
+
                     break;
                 default:
                     Toast.makeText(this, "Chức năng đang phát triển!", Toast.LENGTH_SHORT).show();
@@ -126,6 +152,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void showPopupMenu() {
         PopupMenu popupMenu = new PopupMenu(this, imgMenu);
+        popupMenu.getMenu().add("Liên hệ quản lý");
         popupMenu.getMenu().add("Đăng xuất");
         popupMenu.setOnMenuItemClickListener(item -> {
             if (item.getTitle().equals("Đăng xuất")) {
@@ -134,6 +161,11 @@ public class DashboardActivity extends AppCompatActivity {
 
                 startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
                 finish();
+            } else if (item.getTitle().equals("Liên hệ quản lý")) {
+                String soDienThoai = "0987654321";
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:" + soDienThoai));
+                startActivity(callIntent);
             }
             return true;
         });
