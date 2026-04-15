@@ -81,7 +81,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "VaiTro TEXT NOT NULL," +
                 "Email TEXT NOT NULL," +
                 "Sdt TEXT NOT NULL," +
-                "User TEXT NOT NULL UNIQUE," +
+                "[User] TEXT NOT NULL UNIQUE," +
                 "Pass TEXT NOT NULL)");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS nhaxuatban (" +
@@ -237,7 +237,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "('NN008', 'Tiếng Đức')," +
                 "('NN009', 'Tiếng Tây Ban Nha')");
 
-        db.execSQL("INSERT OR IGNORE INTO nhanvien (MaNV, TenNV, QueQuan, GioiTinh, NamSinh, VaiTro, Email, Sdt, User, Pass) VALUES " +
+        db.execSQL("INSERT OR IGNORE INTO nhanvien (MaNV, TenNV, QueQuan, GioiTinh, NamSinh, VaiTro, Email, Sdt, [User], Pass) VALUES " +
                 "('NV001', 'Trần Hải', 'Hà Nội', 'Nam', '1999', 'Quản lý', 'hai.tran@utt.edu.vn', '0987654321', 'nv1', '123')," +
                 "('NV002', 'Hà Phương', 'Hải Phòng', 'Nữ', '2000', 'Thủ thư', 'haphuong@gmail.com', '0123456789', 'nv2', '1234')," +
                 "('NV003', '1', '1', 'Nam', '2005', 'Quản lý', 'ad@gmail.com', '0945088056', 'khanhs', '1234')," +

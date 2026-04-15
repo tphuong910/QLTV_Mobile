@@ -31,7 +31,7 @@ public class TaiKhoanQuery {
         
         // 1. Kiểm tra trong bảng nhanvien (Admin/Staff)
         Cursor cursorNV = db.rawQuery(
-                "SELECT MaNV, TenNV, VaiTro FROM nhanvien WHERE User = ? AND Pass = ?",
+                "SELECT MaNV, TenNV, VaiTro FROM nhanvien WHERE [User] = ? AND Pass = ? LIMIT 1",
                 new String[]{user, pass}
         );
 
@@ -70,7 +70,7 @@ public class TaiKhoanQuery {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         try {
             // Cập nhật cho nhân viên
-            db.execSQL("UPDATE nhanvien SET Pass = ? WHERE User = ? AND Email = ?", new Object[]{passMoi, user, email});
+            db.execSQL("UPDATE nhanvien SET Pass = ? WHERE [User] = ? AND Email = ?", new Object[]{passMoi, user, email});
             // Cập nhật cho độc giả (khách hàng)
             db.execSQL("UPDATE docgia SET Pass = ? WHERE User = ? AND Email = ?", new Object[]{passMoi, user, email});
             return true;

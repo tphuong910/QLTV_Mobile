@@ -124,7 +124,7 @@ public class DashboardActivity extends AppCompatActivity {
                 // ĐÂY LÀ ĐOẠN ĐƯỢC THÊM VÀO CHO NHÀ XUẤT BẢN (VỊ TRÍ SỐ 6)
                 case 6:
                     startActivity(new Intent(DashboardActivity.this, NhaXuatBanActivity.class));
-
+                    break;
                 case 2:
                     startActivity(new Intent(DashboardActivity.this, TacGiaActivity.class));
                     break;

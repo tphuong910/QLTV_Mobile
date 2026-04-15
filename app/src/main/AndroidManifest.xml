@@ -60,6 +60,8 @@
 
         <!-- Nhân Viên -->
         <activity android:name=".nhanvien.NhanVienActivity" />
+        <activity android:name=".nhanvien.UpdateNhanVienActivity" />
+        <activity android:name=".nhanvien.AddNhanVienActivity" />
 
         <!-- Kệ Sách -->
         <activity android:name=".kesach.KeSachActivity" />

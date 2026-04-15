@@ -1,8 +1,7 @@
 package com.BTCK.qltv.nhanvien;
+;
 
-import java.io.Serializable;
-
-public class NhanVien implements Serializable {
+public class NhanVien {
     private String maNV;
     private String tenNV;
     private String queQuan;
@@ -14,7 +13,8 @@ public class NhanVien implements Serializable {
     private String user;
     private String pass;
 
-    public NhanVien() {}
+    public NhanVien() {
+    }
 
     public NhanVien(String maNV, String tenNV, String queQuan, String gioiTinh, String namSinh, String vaiTro, String email, String sdt, String user, String pass) {
         this.maNV = maNV;
