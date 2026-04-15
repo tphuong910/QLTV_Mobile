@@ -29,6 +29,20 @@
         <activity android:name=".theloai.AddTheLoaiActivity" />
         <activity android:name=".theloai.UpdateTheLoaiActivity" />
 
+        <!-- Nhà Xuất Bản -->
+        <activity android:name=".nhaxuatban.NhaXuatBanActivity" />
+        <activity android:name=".nhaxuatban.AddNhaXuatBanActivity" />
+        <activity android:name=".nhaxuatban.UpdateNhaXuatBanActivity" />
+
+        <!-- Khoa -->
+        <activity android:name=".khoa.KhoaActivity" />
+        <activity android:name=".khoa.AddKhoaActivity" />
+        <activity android:name=".khoa.UpdateKhoaActivity" />
+        <!-- ĐỘc Giả -->
+        <activity android:name=".docgia.DocGiaActivity" />
+        <activity android:name=".docgia.AddDocGiaActivity" />
+        <activity android:name=".docgia.UpdateDocGiaActivity" />
+
         <!-- Ngôn Ngữ -->
         <activity android:name=".ngonngu.NgonNguActivity" />
         <activity android:name=".ngonngu.AddNgonNguActivity" />
@@ -46,7 +60,6 @@
 
         <!-- Nhân Viên -->
         <activity android:name=".nhanvien.NhanVienActivity" />
-
 
         <!-- Kệ Sách -->
         <activity android:name=".kesach.KeSachActivity" />
