@@ -3,7 +3,6 @@ package com.BTCK.qltv.login;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.BTCK.qltv.database.SQLiteHelper;
 
@@ -48,7 +47,6 @@ public class TaiKhoanQuery {
         cursorNV.close();
 
         // 2. Kiểm tra trong bảng docgia (Khách hàng)
-        // Lưu ý: Tên cột trong DB là User và Pass (phân biệt hoa thường trong một số trường hợp)
         Cursor cursorDG = db.rawQuery(
                 "SELECT MaDG, TenDG FROM docgia WHERE User = ? AND Pass = ?",
                 new String[]{user, pass}
