@@ -3,6 +3,7 @@ package com.BTCK.qltv.theloai;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ public class AddTheLoaiActivity extends AppCompatActivity {
 
     EditText edtMaTL, edtTenTL;
     Button btnSaveTheLoai;
+    ImageButton btnBack;
     TheLoaiQuery theLoaiQuery;
 
     @Override
@@ -23,16 +25,19 @@ public class AddTheLoaiActivity extends AppCompatActivity {
         edtMaTL = findViewById(R.id.edtMaTL);
         edtTenTL = findViewById(R.id.edtTenTL);
         btnSaveTheLoai = findViewById(R.id.btnSaveTheLoai);
+        btnBack = findViewById(R.id.btnBackAddTL);
 
         theLoaiQuery = new TheLoaiQuery(this);
 
-        // Hiển thị mã tự động lên UI để người dùng thấy (optional)
+        // Nút quay lại
+        btnBack.setOnClickListener(v -> finish());
+
+        // Hiển thị mã tự động lên UI
         String maTuDong = theLoaiQuery.taoMaTheLoaiMoi();
         edtMaTL.setText(maTuDong);
 
         btnSaveTheLoai.setOnClickListener(v -> {
-            // Khi lưu sẽ lấy mã tự động luôn
-            String ma = theLoaiQuery.taoMaTheLoaiMoi();
+            String ma = edtMaTL.getText().toString();
             String ten = edtTenTL.getText().toString().trim();
 
             if (ten.isEmpty()) {
@@ -44,7 +49,7 @@ public class AddTheLoaiActivity extends AppCompatActivity {
             boolean inserted = theLoaiQuery.themTheLoai(theLoai);
 
             if (inserted) {
-                Toast.makeText(this, "Đã thêm Thể Loại: " + ma, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đã thêm Thể Loại thành công!", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 Toast.makeText(this, "Thêm thất bại!", Toast.LENGTH_SHORT).show();

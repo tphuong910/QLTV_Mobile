@@ -1,9 +1,9 @@
 package com.BTCK.qltv.login;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.BTCK.qltv.database.SQLiteHelper;
 
@@ -16,39 +16,65 @@ public class TaiKhoanQuery {
     }
 
     public static class UserInfo {
-        public final String maNhanVien;
-        public final String tenNhanVien;
-        public final String vaiTro;
+        public final String id;
+        public final String ten;
+        public final String vaiTro; // "Staff" hoặc "Khách hàng"
 
-        public UserInfo(String maNhanVien, String tenNhanVien, String vaiTro) {
-            this.maNhanVien = maNhanVien;
-            this.tenNhanVien = tenNhanVien;
+        public UserInfo(String id, String ten, String vaiTro) {
+            this.id = id;
+            this.ten = ten;
             this.vaiTro = vaiTro;
         }
     }
 
     public UserInfo dangNhap(String user, String pass) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(
-                "SELECT MaNV, TenNV, VaiTro FROM nhanvien WHERE User = ? AND Pass = ? LIMIT 1",
+        
+        // 1. Kiểm tra trong bảng nhanvien (Admin/Staff)
+        Cursor cursorNV = db.rawQuery(
+                "SELECT MaNV, TenNV, VaiTro FROM nhanvien WHERE User = ? AND Pass = ?",
                 new String[]{user, pass}
         );
 
-        UserInfo userInfo = null;
-        if (cursor.moveToFirst()) {
-            userInfo = new UserInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2));
+        if (cursorNV.moveToFirst()) {
+            UserInfo userInfo = new UserInfo(
+                cursorNV.getString(0), 
+                cursorNV.getString(1), 
+                cursorNV.getString(2)
+            );
+            cursorNV.close();
+            return userInfo;
         }
+        cursorNV.close();
 
-        cursor.close();
-        return userInfo;
+        // 2. Kiểm tra trong bảng docgia (Khách hàng)
+        // Lưu ý: Tên cột trong DB là User và Pass (phân biệt hoa thường trong một số trường hợp)
+        Cursor cursorDG = db.rawQuery(
+                "SELECT MaDG, TenDG FROM docgia WHERE User = ? AND Pass = ?",
+                new String[]{user, pass}
+        );
+
+        if (cursorDG.moveToFirst()) {
+            UserInfo userInfo = new UserInfo(
+                cursorDG.getString(0), 
+                cursorDG.getString(1), 
+                "Khách hàng"
+            );
+            cursorDG.close();
+            return userInfo;
+        }
+        cursorDG.close();
+
+        return null;
     }
 
     public boolean doiMatKhau(String user, String email, String passMoi) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         try {
-            String sql = "UPDATE nhanvien SET Pass = ? WHERE User = ? AND Email = ?";
-            db.execSQL(sql, new Object[]{passMoi, user, email});
+            // Cập nhật cho nhân viên
+            db.execSQL("UPDATE nhanvien SET Pass = ? WHERE User = ? AND Email = ?", new Object[]{passMoi, user, email});
+            // Cập nhật cho độc giả (khách hàng)
+            db.execSQL("UPDATE docgia SET Pass = ? WHERE User = ? AND Email = ?", new Object[]{passMoi, user, email});
             return true;
         } catch (Exception e) {
             e.printStackTrace();

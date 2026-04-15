@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -15,17 +16,16 @@ import com.BTCK.qltv.R;
 import com.BTCK.qltv.database.SQLiteHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddSachActivity extends AppCompatActivity {
 
     EditText edtTenSach, edtSoLuong, edtNamXB;
     Spinner spnMaTL, spnMaTG, spnMaNXB, spnMaNN, spnMaViTri;
     Button btnSaveSach;
+    ImageButton btnBack;
 
     SachQuery sachQuery;
 
-    // Các danh sách dùng để lưu Mã tương ứng với dữ liệu trên Spinner
     ArrayList<String> dsMaTL = new ArrayList<>();
     ArrayList<String> dsMaTG = new ArrayList<>();
     ArrayList<String> dsMaNXB = new ArrayList<>();
@@ -48,10 +48,12 @@ public class AddSachActivity extends AppCompatActivity {
         spnMaViTri = findViewById(R.id.spnMaViTri);
 
         btnSaveSach = findViewById(R.id.btnSaveSach);
+        btnBack = findViewById(R.id.btnBackAddSach);
 
         sachQuery = new SachQuery(this);
 
-        // Load dữ liệu lên các Spinner và lưu mã vào các danh sách song song
+        btnBack.setOnClickListener(v -> finish());
+
         loadSpinnerData(spnMaTL, "theloai", "MaTL", "TenTL", dsMaTL, null);
         loadSpinnerData(spnMaTG, "tacgia", "MaTG", "TenTG", dsMaTG, null);
         loadSpinnerData(spnMaNXB, "nhaxuatban", "MaNXB", "TenNXB", dsMaNXB, null);
@@ -68,15 +70,13 @@ public class AddSachActivity extends AppCompatActivity {
                 return;
             }
 
-            // Lấy Mã (ID) từ các danh sách thông qua vị trí mà người dùng chọn trên Spinner
             String maTL = dsMaTL.get(spnMaTL.getSelectedItemPosition());
             String maTG = dsMaTG.get(spnMaTG.getSelectedItemPosition());
             String maNXB = dsMaNXB.get(spnMaNXB.getSelectedItemPosition());
             String maNN = dsMaNN.get(spnMaNN.getSelectedItemPosition());
             String maViTri = dsMaViTri.get(spnMaViTri.getSelectedItemPosition());
 
-            int soLuong;
-            int namXB;
+            int soLuong, namXB;
             try {
                 soLuong = Integer.parseInt(strSoLuong);
                 namXB = Integer.parseInt(strNamXB);
@@ -88,9 +88,8 @@ public class AddSachActivity extends AppCompatActivity {
             String maSach = sachQuery.taoMaSachMoi();
             Sach sach = new Sach(maSach, maTG, maNXB, maTL, ten, maNN, maViTri, namXB, soLuong);
 
-            boolean inserted = sachQuery.themSach(sach);
-            if (inserted) {
-                Toast.makeText(this, "Thêm sách thành công! Mã: " + maSach, Toast.LENGTH_SHORT).show();
+            if (sachQuery.themSach(sach)) {
+                Toast.makeText(this, "Thêm sách thành công!", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 Toast.makeText(this, "Thêm sách thất bại!", Toast.LENGTH_SHORT).show();
@@ -111,31 +110,19 @@ public class AddSachActivity extends AppCompatActivity {
         while (cursor.moveToNext()) {
             String id = cursor.getString(0);
             String name = cursor.getString(1);
-
-            dsMa.add(id);   // Lưu Mã (ID) vào danh sách ẩn
-            dsTen.add(name); // Lưu Tên vào danh sách để hiện lên Spinner
-
-            if (selectedId != null && id.equals(selectedId)) {
-                selectedIndex = currentIndex;
-            }
+            dsMa.add(id);
+            dsTen.add(name);
+            if (selectedId != null && id.equals(selectedId)) selectedIndex = currentIndex;
             currentIndex++;
         }
-
         cursor.close();
         db.close();
-        dbHelper.close();
 
-        if (dsMa.isEmpty()) {
-            dsMa.add("");
-            dsTen.add("-- Trống --");
-        }
+        if (dsMa.isEmpty()) { dsMa.add(""); dsTen.add("-- Trống --"); }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dsTen);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
-        if (selectedId != null) {
-            spinner.setSelection(selectedIndex);
-        }
+        if (selectedId != null) spinner.setSelection(selectedIndex);
     }
 }

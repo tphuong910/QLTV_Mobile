@@ -19,19 +19,32 @@ public class SachQuery {
         dbHelper = new SQLiteHelper(context);
     }
 
+    // Lấy toàn bộ danh sách sách (dành cho Admin)
     public List<Sach> layDanhSachSach() {
+        return layDanhSach("");
+    }
+
+    // Lấy danh sách sách có lọc theo từ khóa (dành cho cả Admin và Khách hàng)
+    public List<Sach> layDanhSach(String keyword) {
         List<Sach> listSach = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(
-                "SELECT MaSach, MaTG, MaNXB, MaTL, TenSach, MaNN, MaViTri, NamXB, SoLuong FROM sach ORDER BY MaSach",
-                null
-        );
+        String query = "SELECT s.MaSach, s.MaTG, s.MaNXB, s.MaTL, s.TenSach, s.MaNN, s.MaViTri, s.NamXB, s.SoLuong, tg.TenTG " +
+                "FROM sach s JOIN tacgia tg ON s.MaTG = tg.MaTG ";
+        
+        String[] args = null;
+        if (keyword != null && !keyword.isEmpty()) {
+            query += "WHERE s.TenSach LIKE ? OR tg.TenTG LIKE ? ";
+            args = new String[]{"%" + keyword + "%", "%" + keyword + "%"};
+        }
+        query += "ORDER BY s.MaSach";
+
+        Cursor cursor = db.rawQuery(query, args);
 
         while (cursor.moveToNext()) {
             Sach sach = new Sach();
             sach.setMaSach(cursor.getString(0));
-            sach.setMaTG(cursor.getString(1));
+            sach.setMaTG(cursor.getString(9)); // Lấy tên tác giả thay vì mã để hiển thị
             sach.setMaNXB(cursor.getString(2));
             sach.setMaTL(cursor.getString(3));
             sach.setTenSach(cursor.getString(4));

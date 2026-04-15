@@ -3,42 +3,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:gravity="center_horizontal">
+    android:background="#FFFFFF">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thêm Thể Loại"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="30dp" />
-
-    <EditText
-        android:id="@+id/edtMaTL"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Mã Thể loại (Tự động tăng)"
-        android:padding="10dp"
-        android:background="#E0E0E0"
-        android:enabled="false"
-        android:textColor="#888888"
-        android:layout_marginBottom="15dp" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="#3F51B5">
 
-    <EditText
-        android:id="@+id/edtTenTL"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Tên Thể loại"
-        android:padding="10dp"
-        android:background="#E0E0E0"
-        android:layout_marginBottom="25dp" />
+        <ImageButton
+            android:id="@+id/btnBackAddTL"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            android:tint="@android:color/white"
+            android:contentDescription="Back" />
 
-    <Button
-        android:id="@+id/btnSaveTheLoai"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Thêm Thể Loại Mới"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lưu lại"
-        android:textSize="18sp" />
+        android:orientation="vertical"
+        android:padding="20dp">
 
+        <EditText
+            android:id="@+id/edtMaTL"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Mã Thể loại (Tự động tăng)"
+            android:padding="10dp"
+            android:background="#E0E0E0"
+            android:enabled="false"
+            android:textColor="#888888"
+            android:layout_marginBottom="15dp" />
+
+        <EditText
+            android:id="@+id/edtTenTL"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Tên Thể loại"
+            android:padding="10dp"
+            android:background="#E0E0E0"
+            android:layout_marginBottom="25dp" />
+
+        <Button
+            android:id="@+id/btnSaveTheLoai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lưu lại"
+            android:textSize="18sp" />
+    </LinearLayout>
 </LinearLayout>

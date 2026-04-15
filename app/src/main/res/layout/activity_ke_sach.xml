@@ -5,6 +5,31 @@
     android:orientation="vertical"
     android:background="#F5F5F5">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#3F51B5">
+
+        <ImageButton
+            android:id="@+id/btnBackKeSach"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            android:tint="@android:color/white"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Quản Lý Kệ Sách"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +56,8 @@
             android:background="#FF5722"
             android:src="@android:drawable/ic_input_add"
             android:tint="@android:color/white"
-            android:elevation="2dp"/>
+            android:elevation="2dp"
+            android:contentDescription="Add" />
     </LinearLayout>
 
     <ListView

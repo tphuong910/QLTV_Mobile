@@ -69,5 +69,8 @@
 
         <!-- Mượn Trả -->
         <activity android:name=".muontra.MuonTraActivity" />
+
+        <!-- Khách Hàng (Front-end) -->
+        <activity android:name=".khachhang.HomeKhachHangActivity" />
     </application>
 </manifest>

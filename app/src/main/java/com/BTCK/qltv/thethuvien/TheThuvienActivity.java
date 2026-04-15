@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class TheThuvienActivity extends AppCompatActivity {
 
     private EditText edtTimKiem;
     private ImageButton btnThem;
+    private ImageView imgBack;
     private ListView lvTheThuvien;
     private ArrayList<TheThuvien> listThe;
     private ArrayAdapter<TheThuvien> adapter;
@@ -43,6 +45,7 @@ public class TheThuvienActivity extends AppCompatActivity {
 
         edtTimKiem = findViewById(R.id.edtTimKiem);
         btnThem = findViewById(R.id.btnThem);
+        imgBack = findViewById(R.id.imgBackTTV);
         lvTheThuvien = findViewById(R.id.lvTheThuvien);
 
         theThuvienQuery = new TheThuvienQuery(this);
@@ -50,6 +53,11 @@ public class TheThuvienActivity extends AppCompatActivity {
 
         setupListView();
         loadData("");
+
+        // Sự kiện quay lại
+        if (imgBack != null) {
+            imgBack.setOnClickListener(v -> finish());
+        }
 
         // Tìm kiếm theo từ khóa khi người dùng gõ
         edtTimKiem.addTextChangedListener(new TextWatcher() {
