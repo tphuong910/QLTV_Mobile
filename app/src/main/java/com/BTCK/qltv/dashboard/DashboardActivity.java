@@ -16,6 +16,9 @@ import com.BTCK.qltv.R;
 import com.BTCK.qltv.login.LoginActivity;
 import com.BTCK.qltv.sach.SachActivity;
 import com.BTCK.qltv.theloai.TheLoaiActivity;
+// KẾT NỐI VỚI NXB VÀ KHOA
+import com.BTCK.qltv.nhaxuatban.NhaXuatBanActivity;
+import com.BTCK.qltv.khoa.KhoaActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,18 +81,18 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void setupListView() {
         moduleList = new ArrayList<>();
-        moduleList.add(new Module("Quản lý sách", R.drawable.ic_book));
-        moduleList.add(new Module("Quản lý thể loại", R.drawable.ic_category));
-        moduleList.add(new Module("Quản lý tác giả", R.drawable.ic_author));
-        moduleList.add(new Module("Quản lý khoa", R.drawable.ic_department));
-        moduleList.add(new Module("Quản lý lớp", R.drawable.ic_class));
-        moduleList.add(new Module("Quản lý nhân viên", R.drawable.ic_employee));
-        moduleList.add(new Module("Quản lý nhà xuất bản", R.drawable.ic_publisher));
-        moduleList.add(new Module("Quản lý độc giả", R.drawable.ic_reader));
-        moduleList.add(new Module("Quản lý kệ sách", R.drawable.ic_bookshelf));
-        moduleList.add(new Module("Quản lý ngôn ngữ", R.drawable.ic_language));
-        moduleList.add(new Module("Quản lý thẻ thư viện", R.drawable.ic_library));
-        moduleList.add(new Module("Quản lý mượn - trả sách", R.drawable.ic_borrow_return));
+        moduleList.add(new Module("Quản lý sách", R.drawable.ic_book)); // Vị trí 0
+        moduleList.add(new Module("Quản lý thể loại", R.drawable.ic_category)); // Vị trí 1
+        moduleList.add(new Module("Quản lý tác giả", R.drawable.ic_author)); // Vị trí 2
+        moduleList.add(new Module("Quản lý khoa", R.drawable.ic_department)); // Vị trí 3
+        moduleList.add(new Module("Quản lý lớp", R.drawable.ic_class)); // Vị trí 4
+        moduleList.add(new Module("Quản lý nhân viên", R.drawable.ic_employee)); // Vị trí 5
+        moduleList.add(new Module("Quản lý nhà xuất bản", R.drawable.ic_publisher)); // Vị trí 6
+        moduleList.add(new Module("Quản lý độc giả", R.drawable.ic_reader)); // Vị trí 7
+        moduleList.add(new Module("Quản lý kệ sách", R.drawable.ic_bookshelf)); // Vị trí 8
+        moduleList.add(new Module("Quản lý ngôn ngữ", R.drawable.ic_language)); // Vị trí 9
+        moduleList.add(new Module("Quản lý thẻ thư viện", R.drawable.ic_library)); // Vị trí 10
+        moduleList.add(new Module("Quản lý mượn - trả sách", R.drawable.ic_borrow_return)); // Vị trí 11
 
         adapter = new ModuleAdapter(this, moduleList);
         lvModules.setAdapter(adapter);
@@ -102,10 +105,22 @@ public class DashboardActivity extends AppCompatActivity {
                 case 1:
                     startActivity(new Intent(DashboardActivity.this, TheLoaiActivity.class));
                     break;
+                // ĐÂY LÀ ĐOẠN ĐƯỢC THÊM VÀO CHO KHOA (VỊ TRÍ SỐ 3)
+                case 3:
+                    startActivity(new Intent(DashboardActivity.this, KhoaActivity.class));
+                    break;
+                // ĐÂY LÀ ĐOẠN ĐƯỢC THÊM VÀO CHO NHÀ XUẤT BẢN (VỊ TRÍ SỐ 6)
+                case 6:
+                    startActivity(new Intent(DashboardActivity.this, NhaXuatBanActivity.class));
+                    break;
                 default:
                     Toast.makeText(this, "Chức năng đang phát triển!", Toast.LENGTH_SHORT).show();
                     break;
+                case 7:
+                    startActivity(new Intent(DashboardActivity.this, com.BTCK.qltv.docgia.DocGiaActivity.class));
+                    break;
             }
+
         });
     }
 
