@@ -22,6 +22,8 @@ import com.BTCK.qltv.sach.SachActivity;
 import com.BTCK.qltv.theloai.TheLoaiActivity;
 import com.BTCK.qltv.tacgia.TacGiaActivity;
 import com.BTCK.qltv.lop.LopActivity;
+import com.BTCK.qltv.thethuvien.TheThuvienActivity;
+import com.BTCK.qltv.muontra.MuonTraActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,6 +124,12 @@ public class DashboardActivity extends AppCompatActivity {
                     break;
                 case 8: // Vị trí của "Quản lý kệ sách" trong moduleList
                     startActivity(new Intent(DashboardActivity.this, KeSachActivity.class));
+                    break;
+                case 10:
+                    startActivity(new Intent(DashboardActivity.this, TheThuvienActivity.class));
+                    break;
+                case 11:
+                    startActivity(new Intent(DashboardActivity.this, MuonTraActivity.class));
                     break;
                 default:
                     Toast.makeText(this, "Chức năng đang phát triển!", Toast.LENGTH_SHORT).show();

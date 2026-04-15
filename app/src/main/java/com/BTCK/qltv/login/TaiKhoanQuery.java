@@ -16,10 +16,12 @@ public class TaiKhoanQuery {
     }
 
     public static class UserInfo {
+        public final String maNhanVien;
         public final String tenNhanVien;
         public final String vaiTro;
 
-        public UserInfo(String tenNhanVien, String vaiTro) {
+        public UserInfo(String maNhanVien, String tenNhanVien, String vaiTro) {
+            this.maNhanVien = maNhanVien;
             this.tenNhanVien = tenNhanVien;
             this.vaiTro = vaiTro;
         }
@@ -28,13 +30,13 @@ public class TaiKhoanQuery {
     public UserInfo dangNhap(String user, String pass) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(
-                "SELECT TenNV, VaiTro FROM nhanvien WHERE User = ? AND Pass = ? LIMIT 1",
+                "SELECT MaNV, TenNV, VaiTro FROM nhanvien WHERE User = ? AND Pass = ? LIMIT 1",
                 new String[]{user, pass}
         );
 
         UserInfo userInfo = null;
         if (cursor.moveToFirst()) {
-            userInfo = new UserInfo(cursor.getString(0), cursor.getString(1));
+            userInfo = new UserInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2));
         }
 
         cursor.close();

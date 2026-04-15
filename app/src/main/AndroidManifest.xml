@@ -50,5 +50,11 @@
 
         <!-- Kệ Sách -->
         <activity android:name=".kesach.KeSachActivity" />
+
+        <!-- Thẻ Thư Viện -->
+        <activity android:name=".thethuvien.TheThuvienActivity" />
+
+        <!-- Mượn Trả -->
+        <activity android:name=".muontra.MuonTraActivity" />
     </application>
 </manifest>

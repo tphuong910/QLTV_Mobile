@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/edtMaMT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mã phiếu mượn (tự động)"
+        android:enabled="false"
+        android:layout_marginBottom="12dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đọc giả (chỉ hiển thị đọc giả có thẻ hợp lệ)"
+        android:textSize="14sp"
+        android:layout_marginBottom="4dp"/>
+
+    <Spinner
+        android:id="@+id/spnDocGia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sách"
+        android:textSize="14sp"
+        android:layout_marginBottom="4dp"/>
+
+    <Spinner
+        android:id="@+id/spnSach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText
+        android:id="@+id/edtSoLuong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số lượng mượn"
+        android:inputType="number"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText
+        android:id="@+id/edtNgayMuon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ngày mượn"
+        android:focusable="false"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText
+        android:id="@+id/edtHanTra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hạn trả (yyyy-MM-dd)"
+        android:focusable="false"
+        android:clickable="true"/>
+
+</LinearLayout>
