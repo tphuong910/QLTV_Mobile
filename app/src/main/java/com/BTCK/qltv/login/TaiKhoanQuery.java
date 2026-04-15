@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 import com.BTCK.qltv.database.SQLiteHelper;
 
@@ -49,7 +50,15 @@ public class TaiKhoanQuery {
         try {
             String sql = "UPDATE nhanvien SET Pass = ? WHERE User = ? AND Email = ?";
             db.execSQL(sql, new Object[]{passMoi, user, email});
-            return true;
+
+            SQLiteStatement stmt = db.compileStatement("SELECT changes()");
+            long rowsAffected = stmt.simpleQueryForLong();
+
+            if (rowsAffected > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
