@@ -74,5 +74,6 @@
 
         <!-- Khách Hàng (Front-end) -->
         <activity android:name=".khachhang.HomeKhachHangActivity" />
+        <activity android:name=".khachhang.MuonSachKhachHangActivity" />
     </application>
 </manifest>
