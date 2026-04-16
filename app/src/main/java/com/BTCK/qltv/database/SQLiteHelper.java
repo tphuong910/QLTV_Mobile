@@ -209,13 +209,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "('L037', '74DKTVT02', 'KH006')");
 
         db.execSQL("INSERT OR IGNORE INTO docgia (MaDG, MaKhoa, MaLop, TenDG, NamSinh, GioiTinh, DiaChi, Email, Sdt, User, Pass) VALUES " +
-                "('DG001', 'KH001', 'L004', 'Ngọc Bích', '2005', 'Nữ', 'Hà Nội', 'nb@gmail.com', '0393916176', 'kh1', '123')," +
-                "('DG002', 'KH001', 'L001', 'Nguyễn Ngọc Bích', '2004', 'Nữ', 'Hà Nội', 'bichnn02@gmail.com', '0393916177', 'kh2', '123')," +
-                "('DG003', 'KH001', 'L001', 'Nguyễn Ngọc Linh', '2004', 'Nữ', 'Hà Nội', 'linhnn05@gmail.com', '0367123456', 'kh3', '123')," +
-                "('DG004', 'KH001', 'L002', 'Lưu Đức Anh Dũng', '2003', 'Nam', 'Hà Nội', 'dunglda06@gmail.com', '0356123456', 'kh4', '123')," +
-                "('DG005', 'KH001', 'L003', 'Đinh Hoàng Đức', '2003', 'Nam', 'Hà Nội', 'ducdh07@gmail.com', '0345123456', 'kh5', '123')," +
-                "('DG006', 'KH001', 'L001', 'Nguyễn Nam Khánh', '2003', 'Nam', 'Hà Nội', 'khanhnn08@gmail.com', '0334123456', 'kh6', '123')," +
-                "('DG007', 'KH001', 'L005', '123', '2005', 'Nam', '213', '22@gmail.com', '0945088052', 'kh7', '123')");
+                "('DG001', 'KH001', 'L004', 'Thu Phương', '2005', 'Nữ', 'Hà Nội', 'tp9102005@gmail.com', '0393916176', 'kh1', '123')," +
+                "('DG002', 'KH001', 'L001', 'Nguyễn Hoàng Anh', '2004', 'Nữ', 'Hà Nội', 'hoanganh@gmail.com', '0393916177', 'kh2', '123')," +
+                "('DG003', 'KH001', 'L002', 'Nguyễn Hoàng Long', '2003', 'Nam', 'Hà Nội', 'long2005@gmail.com', '0356123456', 'kh4', '123')," +
+                "('DG004', 'KH001', 'L003', 'Nguyễn Thế Vĩnh', '2003', 'Nam', 'Hà Nội', 'vinhvinh@gmail.com', '0345123456', 'kh5', '123')," +
+                "('DG005', 'KH001', 'L001', 'Hồ Đắc Sơn', '2003', 'Nam', 'Hà Nội', 'sondac@gmail.com', '0334123456', 'kh6', '123')," +
+                "('DG006', 'KH001', 'L005', 'Vũ Hoàng Việt', '2005', 'Nam', 'Hải Phòng', 'viethoang@gmail.com', '0945088052', 'kh7', '123')");
 
         db.execSQL("INSERT OR IGNORE INTO kesach (MaViTri, TenKe, MoTa) VALUES " +
                 "('KS001', 'Kệ CNTT', 'Sách Công nghệ thông tin')," +
