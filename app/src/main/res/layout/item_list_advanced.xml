@@ -30,14 +30,14 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvHienThi"
+            android:id="@android:id/text1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:textSize="14sp"
             android:textColor="@color/colorTextPrimary"
-            android:lineSpacingExtra="4dp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="20dp"
@@ -45,5 +45,4 @@
             android:src="@android:drawable/ic_media_play"
             app:tint="@color/colorTextSecondary" />
     </LinearLayout>
-
 </LinearLayout>

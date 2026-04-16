@@ -1,167 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorLightBlueGray"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:background="@drawable/bg_header_dashboard"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="20dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_media_previous"
+            android:tint="@color/white" />
 
-            <ImageView
-                android:id="@+id/imgBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:padding="5dp"
-                android:src="@android:drawable/ic_menu_revert" /> <TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="Cập Nhật Nhân Viên"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_centerInParent="true" />
-        </RelativeLayout>
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
-        <EditText
-            android:id="@+id/edtMaNV"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Mã nhân viên"
-            android:enabled="false"
-            android:inputType="text"
-            android:padding="10dp"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="10dp" />
-
-        <EditText
-            android:id="@+id/edtTenNV"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Tên nhân viên"
-            android:inputType="text"
-            android:padding="10dp"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="10dp" />
-
-        <EditText
-            android:id="@+id/edtQueQuan"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Quê quán"
-            android:inputType="text"
-            android:padding="10dp"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="10dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Giới tính"
-            android:textStyle="bold"
-            android:layout_marginBottom="5dp"/>
-        <Spinner
-            android:id="@+id/spnGioiTinh"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:entries="@array/gioi_tinh"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="10dp" />
-
-        <EditText
-            android:id="@+id/edtNamSinh"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Năm sinh"
-            android:inputType="number"
-            android:padding="10dp"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="10dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Vai trò"
-            android:textStyle="bold"
-            android:layout_marginBottom="5dp"/>
-        <Spinner
-            android:id="@+id/spnVaiTro"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:entries="@array/vai_tro"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="10dp" />
-
-        <EditText
-            android:id="@+id/edtEmail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:padding="10dp"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="10dp" />
-
-        <EditText
-            android:id="@+id/edtSdt"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Số điện thoại"
-            android:inputType="phone"
-            android:padding="10dp"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="10dp" />
-
-        <EditText
-            android:id="@+id/edtUser"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Username"
-            android:inputType="text"
-            android:padding="10dp"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="10dp" />
-
-        <EditText
-            android:id="@+id/edtPass"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:background="#E0E0E0"
-            android:layout_marginBottom="10dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:padding="20dp">
 
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Hủy"
-                android:textSize="18sp"
-                android:layout_marginEnd="10dp"/>
+                android:background="@drawable/bg_form_card"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <Button
-                android:id="@+id/btnUpdate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cập Nhật"
-                android:textSize="18sp"/>
+                <EditText
+                    android:id="@+id/edtMaNV"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input_disabled"
+                    android:enabled="false"
+                    android:hint="Mã nhân viên"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <EditText
+                    android:id="@+id/edtTenNV"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Tên nhân viên"
+                    android:inputType="text"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <EditText
+                    android:id="@+id/edtQueQuan"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Quê quán"
+                    android:inputType="text"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:text="Giới tính"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spnGioiTinh"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:entries="@array/gioi_tinh"
+                    android:paddingHorizontal="10dp" />
+
+                <EditText
+                    android:id="@+id/edtNamSinh"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Năm sinh"
+                    android:inputType="number"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:text="Vai trò"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spnVaiTro"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:entries="@array/vai_tro"
+                    android:paddingHorizontal="10dp" />
+
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <EditText
+                    android:id="@+id/edtSdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Số điện thoại"
+                    android:inputType="phone"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <EditText
+                    android:id="@+id/edtUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Tên đăng nhập"
+                    android:inputType="text"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <EditText
+                    android:id="@+id/edtPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="14dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Mật khẩu"
+                    android:inputType="textPassword"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnCancel"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_form_button_secondary"
+                        android:text="Hủy"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorDeepBlue"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnUpdate"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_form_button_primary"
+                        android:text="Cập Nhật"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

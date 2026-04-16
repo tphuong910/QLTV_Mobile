@@ -65,7 +65,7 @@ public class NhanVienActivity extends AppCompatActivity {
         });
 
         // Thiết lập Adapter cho ListView với mảng chuỗi
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listHienThiString);
+        adapter = new ArrayAdapter<>(this, R.layout.item_list_advanced, android.R.id.text1, listHienThiString);
         lvData.setAdapter(adapter);
 
         loadData();

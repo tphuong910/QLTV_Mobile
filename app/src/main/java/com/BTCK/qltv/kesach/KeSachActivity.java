@@ -77,7 +77,7 @@ public class KeSachActivity extends AppCompatActivity {
     }
 
     private void setupListView() {
-        adapter = new ArrayAdapter<KeSach>(this, android.R.layout.simple_list_item_1, listKeSach) {
+        adapter = new ArrayAdapter<KeSach>(this, R.layout.item_list_advanced, android.R.id.text1, listKeSach) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
