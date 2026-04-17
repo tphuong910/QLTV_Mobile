@@ -6,6 +6,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ public class AddDocGiaActivity extends AppCompatActivity {
     EditText edtMaDG, edtTenDG, edtNamSinh, edtDiaChi, edtEmail, edtSoDienThoai;
     Spinner spnGioiTinh, spnKhoa, spnLop;
     Button btnSaveDG;
+    ImageButton btnBack;
     DocGiaQuery docGiaQuery;
 
     List<String> listKhoa;
@@ -41,8 +43,12 @@ public class AddDocGiaActivity extends AppCompatActivity {
         spnKhoa = findViewById(R.id.spnKhoa);
         spnLop = findViewById(R.id.spnLop);
         btnSaveDG = findViewById(R.id.btnSaveDG);
+        btnBack = findViewById(R.id.btnBackAddDG);
 
         docGiaQuery = new DocGiaQuery(this);
+
+        // Nút quay lại
+        btnBack.setOnClickListener(v -> finish());
 
         // 1. Hiển thị mã tự động
         edtMaDG.setText(docGiaQuery.taoMaDGMoi());
@@ -75,16 +81,13 @@ public class AddDocGiaActivity extends AppCompatActivity {
 
         // 5. Xử lý nút Lưu
         btnSaveDG.setOnClickListener(v -> {
-            String ma = docGiaQuery.taoMaDGMoi();
             String ten = edtTenDG.getText().toString().trim();
             String namSinh = edtNamSinh.getText().toString().trim();
             String diaChi = edtDiaChi.getText().toString().trim();
             String email = edtEmail.getText().toString().trim();
             String sdt = edtSoDienThoai.getText().toString().trim();
-
             String gioiTinh = spnGioiTinh.getSelectedItem().toString();
 
-            // Lấy mã Khoa và mã Lớp từ chuỗi được chọn trên Spinner
             if (spnKhoa.getSelectedItem() == null || spnLop.getSelectedItem() == null) {
                 Toast.makeText(this, "Vui lòng chọn Khoa và Lớp", Toast.LENGTH_SHORT).show();
                 return;
@@ -97,9 +100,9 @@ public class AddDocGiaActivity extends AppCompatActivity {
                 return;
             }
 
-            DocGia dg = new DocGia(ma, maKhoa, maLop, ten, namSinh, gioiTinh, diaChi, email, sdt);
+            DocGia dg = new DocGia(docGiaQuery.taoMaDGMoi(), maKhoa, maLop, ten, namSinh, gioiTinh, diaChi, email, sdt);
             if (docGiaQuery.themDocGia(dg)) {
-                Toast.makeText(this, "Đã thêm Độc giả: " + ma, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đã thêm Độc giả thành công!", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 Toast.makeText(this, "Thêm thất bại!", Toast.LENGTH_SHORT).show();

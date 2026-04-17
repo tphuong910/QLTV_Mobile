@@ -60,6 +60,8 @@
 
         <!-- Nhân Viên -->
         <activity android:name=".nhanvien.NhanVienActivity" />
+        <activity android:name=".nhanvien.UpdateNhanVienActivity" />
+        <activity android:name=".nhanvien.AddNhanVienActivity" />
 
         <!-- Kệ Sách -->
         <activity android:name=".kesach.KeSachActivity" />
@@ -69,5 +71,9 @@
 
         <!-- Mượn Trả -->
         <activity android:name=".muontra.MuonTraActivity" />
+
+        <!-- Khách Hàng (Front-end) -->
+        <activity android:name=".khachhang.HomeKhachHangActivity" />
+        <activity android:name=".khachhang.MuonSachKhachHangActivity" />
     </application>
 </manifest>

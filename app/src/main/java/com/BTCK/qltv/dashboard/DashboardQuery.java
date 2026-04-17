@@ -29,9 +29,10 @@ public class DashboardQuery {
 
     public int laySachDangMuon() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+        // Cập nhật trạng thái "Đang mượn" hoặc "Chưa trả" để đồng bộ
         Cursor cursor = db.rawQuery(
-                "SELECT MaMT FROM muontra WHERE TrangThai = ?",
-                new String[]{"Chưa trả"}
+                "SELECT MaMT FROM muontra WHERE TrangThai = ? OR TrangThai = ?",
+                new String[]{"Đang mượn", "Chưa trả"}
         );
 
         int tong = 0;
@@ -47,8 +48,8 @@ public class DashboardQuery {
     public int laySachQuaHan() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(
-                "SELECT MaMT, HanTra FROM muontra WHERE TrangThai = ?",
-                new String[]{"Chưa trả"}
+                "SELECT MaMT, HanTra FROM muontra WHERE (TrangThai = ? OR TrangThai = ?)",
+                new String[]{"Đang mượn", "Chưa trả"}
         );
 
         int tongQuaHan = 0;
@@ -102,6 +103,7 @@ public class DashboardQuery {
 
         cursor.close();
 
+        // Nếu trong chi tiết không có số lượng thì mặc định là 1 (tránh trường hợp lỗi dữ liệu)
         if (soLuong <= 0) {
             return 1;
         }

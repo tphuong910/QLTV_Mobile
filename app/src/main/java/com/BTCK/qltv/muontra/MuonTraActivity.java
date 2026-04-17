@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -33,6 +34,7 @@ public class MuonTraActivity extends AppCompatActivity {
 
     private EditText edtTimKiem;
     private ImageButton btnThem;
+    private ImageView imgBack;
     private ListView lvMuonTra;
     private ArrayList<MuonTra> listMuonTra;
     private ArrayAdapter<MuonTra> adapter;
@@ -46,6 +48,7 @@ public class MuonTraActivity extends AppCompatActivity {
 
         edtTimKiem = findViewById(R.id.edtTimKiem);
         btnThem = findViewById(R.id.btnThem);
+        imgBack = findViewById(R.id.imgBackMT);
         lvMuonTra = findViewById(R.id.lvMuonTra);
 
         muonTraQuery = new MuonTraQuery(this);
@@ -53,6 +56,11 @@ public class MuonTraActivity extends AppCompatActivity {
 
         setupListView();
         loadData("");
+
+        // Sự kiện quay lại
+        if (imgBack != null) {
+            imgBack.setOnClickListener(v -> finish());
+        }
 
         // Tìm kiếm theo từ khóa khi gõ
         edtTimKiem.addTextChangedListener(new TextWatcher() {
@@ -91,9 +99,14 @@ public class MuonTraActivity extends AppCompatActivity {
                 TextView tvHienThi = convertView.findViewById(R.id.tvHienThi);
                 MuonTra mt = listMuonTra.get(position);
                 String tenDG = mt.getTenDG() != null ? mt.getTenDG() : mt.getMaDG();
+                
+                // Lấy chi tiết sách để hiển thị thêm thông tin ngày mượn/ngày trả
+                String chiTietSach = muonTraQuery.layChiTietMuonTra(mt.getMaMT());
+                
                 tvHienThi.setText(mt.getMaMT() + " - " + tenDG
+                        + "\n" + chiTietSach
                         + "\nMượn: " + mt.getNgayMuon() + " | Hạn trả: " + mt.getHanTra()
-                        + "\n" + mt.getTrangThai());
+                        + "\nTrạng thái: " + mt.getTrangThai());
                 return convertView;
             }
         };
@@ -230,10 +243,10 @@ public class MuonTraActivity extends AppCompatActivity {
 
             // Lấy mã nhân viên từ phiên đăng nhập
             SharedPreferences prefs = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
-            String maNV = prefs.getString("MaNV", "NV001");
+            String maNV = prefs.getString("MaUser", "NV001");
 
             MuonTra mt = new MuonTra(maMT, maDG, maNV,
-                    sdf.format(new Date()), hanTra, "Chưa trả");
+                    sdf.format(new Date()), hanTra, "Đang mượn");
 
             if (muonTraQuery.themMuonTra(mt, maSach, soLuong)) {
                 Toast.makeText(this, "Mượn sách thành công!", Toast.LENGTH_SHORT).show();

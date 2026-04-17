@@ -13,7 +13,7 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/btnBack"
+            android:id="@+id/imgBack"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_centerVertical="true"
@@ -30,17 +30,33 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
+    <EditText
+        android:id="@+id/edtSearch"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/rlToolbar"
+        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:drawablePadding="10dp"
+        android:hint="Tìm kiếm nhân viên..."
+        android:padding="10dp"
+        android:inputType="text"
+        android:elevation="2dp"/>
+
     <ListView
-        android:id="@+id/lvNhanVien"
+        android:id="@+id/lvData"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rlToolbar"
+        android:layout_below="@id/edtSearch"
         android:divider="@android:color/transparent"
         android:dividerHeight="8dp"
-        android:padding="16dp" />
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
+        android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

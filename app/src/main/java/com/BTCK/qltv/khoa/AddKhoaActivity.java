@@ -3,6 +3,7 @@ package com.BTCK.qltv.khoa;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.BTCK.qltv.R;
@@ -10,6 +11,7 @@ import com.BTCK.qltv.R;
 public class AddKhoaActivity extends AppCompatActivity {
     EditText edtMaKhoa, edtTenKhoa;
     Button btnSaveKhoa;
+    ImageButton btnBack;
     KhoaQuery khoaQuery;
 
     @Override
@@ -20,12 +22,16 @@ public class AddKhoaActivity extends AppCompatActivity {
         edtMaKhoa = findViewById(R.id.edtMaKhoa);
         edtTenKhoa = findViewById(R.id.edtTenKhoa);
         btnSaveKhoa = findViewById(R.id.btnSaveKhoa);
+        btnBack = findViewById(R.id.btnBackAddKhoa);
+        
         khoaQuery = new KhoaQuery(this);
 
+        btnBack.setOnClickListener(v -> finish());
+        
         edtMaKhoa.setText(khoaQuery.taoMaKhoaMoi());
 
         btnSaveKhoa.setOnClickListener(v -> {
-            String ma = khoaQuery.taoMaKhoaMoi();
+            String ma = edtMaKhoa.getText().toString();
             String ten = edtTenKhoa.getText().toString().trim();
 
             if (ten.isEmpty()) {

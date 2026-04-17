@@ -12,6 +12,14 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
+        <ImageView
+            android:id="@+id/imgBackMT"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_menu_revert"
+            android:padding="8dp"
+            android:contentDescription="Quay lại" />
+
         <EditText
             android:id="@+id/edtTimKiem"
             android:layout_width="0dp"
@@ -21,6 +29,7 @@
             android:hint="Tìm kiếm..."
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+            android:layout_marginStart="8dp"
             android:elevation="2dp" />
 
         <ImageButton

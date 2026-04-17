@@ -1,170 +1,208 @@
 package com.BTCK.qltv.nhanvien;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.BTCK.qltv.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NhanVienActivity extends AppCompatActivity {
 
-    private ListView lvNhanVien;
-    private FloatingActionButton fabAdd;
-    private ImageView btnBack;
-    private List<NhanVien> listNhanVien;
-    private NhanVienAdapter adapter;
-    private NhanVienQuery nhanVienQuery;
+    EditText edtSearch;
+    ImageView btnAdd;
+    ListView lvData;
+
+    NhanVienQuery nhanVienQuery;
+
+    // Mảng lưu danh sách gốc
+    List<NhanVien> listGoc = new ArrayList<>();
+
+    // Mảng lưu danh sách khi tìm kiếm
+    List<NhanVien> listHienThi = new ArrayList<>();
+
+    // Mảng chuỗi hiển thị lên ListView
+    List<String> listHienThiString = new ArrayList<>();
+    ArrayAdapter<String> adapter;
+
+    int selectedPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhan_vien);
 
-        initViews();
+        // Ánh xạ (Tìm view theo ID)
+        edtSearch = findViewById(R.id.edtSearch);
+        btnAdd = findViewById(R.id.btnAdd);
+        lvData = findViewById(R.id.lvData);
         nhanVienQuery = new NhanVienQuery(this);
+
+        // Sự kiện ấn nút Back
+        ImageView imgBack = findViewById(R.id.imgBack);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        // Thiết lập Adapter cho ListView với mảng chuỗi
+        adapter = new ArrayAdapter<>(this, R.layout.item_list_advanced, android.R.id.text1, listHienThiString);
+        lvData.setAdapter(adapter);
+
         loadData();
 
-        btnBack.setOnClickListener(v -> finish());
-        fabAdd.setOnClickListener(v -> showNhanVienDialog(null));
+        // Sự kiện tìm kiếm (Gõ chữ tới đâu hiển thị tới đó)
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterData(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Chuyển sang màn hình thêm khi bấm nút Add
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NhanVienActivity.this, AddNhanVienActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Đăng ký Context menu (Menu giữ đè)
+        registerForContextMenu(lvData);
     }
 
-    private void initViews() {
-        lvNhanVien = findViewById(R.id.lvNhanVien);
-        fabAdd = findViewById(R.id.fabAdd);
-        btnBack = findViewById(R.id.btnBack);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData(); // Tải lại danh sách sau khi quay về trang này
     }
 
     private void loadData() {
-        listNhanVien = nhanVienQuery.layDanhSachNhanVien();
-        adapter = new NhanVienAdapter(this, listNhanVien, new NhanVienAdapter.OnActionClickListener() {
-            @Override
-            public void onEdit(NhanVien nv) {
-                showNhanVienDialog(nv);
-            }
+        // Xóa hết rồi chép mảng vào
+        listGoc.clear();
+        listGoc.addAll(nhanVienQuery.layDanhSachNhanVien());
 
-            @Override
-            public void onDelete(NhanVien nv) {
-                confirmDelete(nv);
-            }
-        });
-        lvNhanVien.setAdapter(adapter);
+        // Gọi hàm lọc để đổ danh sách ra
+        filterData(edtSearch.getText().toString());
     }
 
-    private void showNhanVienDialog(NhanVien nv) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_nhan_vien, null);
-        builder.setView(view);
+    private void filterData(String keyword) {
+        listHienThi.clear();
+        listHienThiString.clear();
 
-        TextView tvDialogTitle = view.findViewById(R.id.tvDialogTitle);
-        EditText etMaNV = view.findViewById(R.id.etMaNV);
-        EditText etTenNV = view.findViewById(R.id.etTenNV);
-        EditText etQueQuan = view.findViewById(R.id.etQueQuan);
-        Spinner spnGioiTinh = view.findViewById(R.id.spnGioiTinh);
-        EditText etNamSinh = view.findViewById(R.id.etNamSinh);
-        Spinner spnVaiTro = view.findViewById(R.id.spnVaiTro);
-        EditText etEmail = view.findViewById(R.id.etEmail);
-        EditText etSdt = view.findViewById(R.id.etSdt);
-        EditText etUser = view.findViewById(R.id.etUser);
-        EditText etPass = view.findViewById(R.id.etPass);
-        Button btnCancel = view.findViewById(R.id.btnCancel);
-        Button btnSave = view.findViewById(R.id.btnSave);
+        // Xử lý chuỗi tìm kiếm (đổi về chữ in thường)
+        String tuKhoa = keyword;
+        if (tuKhoa == null) {
+            tuKhoa = "";
+        }
+        tuKhoa = tuKhoa.trim().toLowerCase();
 
-        AlertDialog dialog = builder.create();
+        // Chạy vòng lặp for cơ bản duyệt mảng NhanVien
+        for (int i = 0; i < listGoc.size(); i++) {
+            NhanVien nv = listGoc.get(i);
 
-        if (nv != null) {
-            tvDialogTitle.setText("Sửa Nhân Viên");
-            etMaNV.setText(nv.getMaNV());
-            etTenNV.setText(nv.getTenNV());
-            etQueQuan.setText(nv.getQueQuan());
-            setSpinnerValue(spnGioiTinh, nv.getGioiTinh());
-            etNamSinh.setText(nv.getNamSinh());
-            setSpinnerValue(spnVaiTro, nv.getVaiTro());
-            etEmail.setText(nv.getEmail());
-            etSdt.setText(nv.getSdt());
-            etUser.setText(nv.getUser());
-            etPass.setText(nv.getPass());
-        } else {
-            tvDialogTitle.setText("Thêm Nhân Viên");
-            etMaNV.setText(nhanVienQuery.taoMaNVMoi());
+            String tenNV = nv.getTenNV();
+            if (tenNV == null) {
+                tenNV = "";
+            }
+
+            // So sánh tên (đã in thường) với từ khóa
+            if (tuKhoa.equals("") || tenNV.toLowerCase().contains(tuKhoa)) {
+                listHienThi.add(nv);
+
+                // Mảng chuỗi hiển thị chữ
+                String chuoiCanHien = nv.getMaNV() + " - " + tenNV + " (" + nv.getVaiTro() + ")";
+                listHienThiString.add(chuoiCanHien);
+            }
         }
 
-        btnCancel.setOnClickListener(v -> dialog.dismiss());
-
-        btnSave.setOnClickListener(v -> {
-            String ma = etMaNV.getText().toString().trim();
-            String ten = etTenNV.getText().toString().trim();
-            String que = etQueQuan.getText().toString().trim();
-            String gt = spnGioiTinh.getSelectedItem().toString();
-            String ns = etNamSinh.getText().toString().trim();
-            String vt = spnVaiTro.getSelectedItem().toString();
-            String email = etEmail.getText().toString().trim();
-            String sdt = etSdt.getText().toString().trim();
-            String user = etUser.getText().toString().trim();
-            String pass = etPass.getText().toString().trim();
-
-            if (ten.isEmpty() || que.isEmpty() || ns.isEmpty() || email.isEmpty() || sdt.isEmpty() || user.isEmpty() || pass.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            NhanVien newNv = new NhanVien(ma, ten, que, gt, ns, vt, email, sdt, user, pass);
-            boolean success;
-            if (nv == null) {
-                success = nhanVienQuery.themNhanVien(newNv);
-            } else {
-                success = nhanVienQuery.suaNhanVien(newNv);
-            }
-
-            if (success) {
-                Toast.makeText(this, "Thành công", Toast.LENGTH_SHORT).show();
-                loadData();
-                dialog.dismiss();
-            } else {
-                Toast.makeText(this, "Thất bại", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dialog.show();
+        // Báo Adapter cập nhật hiển thị mảng
+        adapter.notifyDataSetChanged();
     }
 
-    private void confirmDelete(NhanVien nv) {
-        new AlertDialog.Builder(this)
-                .setTitle("Xác nhận xóa")
-                .setMessage("Bạn có chắc chắn muốn xóa nhân viên " + nv.getTenNV() + "?")
-                .setPositiveButton("Xóa", (dialog, which) -> {
-                    if (nhanVienQuery.xoaNhanVien(nv.getMaNV())) {
-                        Toast.makeText(this, "Đã xóa", Toast.LENGTH_SHORT).show();
-                        loadData();
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.context_menu, menu);
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        selectedPosition = info.position;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (selectedPosition < 0 || selectedPosition >= listHienThi.size()) {
+            return super.onContextItemSelected(item);
+        }
+
+        // Lấy nhân viên đang được click
+        NhanVien nvEdit = listHienThi.get(selectedPosition);
+
+        if (item.getItemId() == R.id.menu_update) {
+            // Chuyển sang màng hình Update
+            Intent intent = new Intent(NhanVienActivity.this, UpdateNhanVienActivity.class);
+
+            // Đẩy dữ liệu qua bằng intent
+            intent.putExtra("maNV", nvEdit.getMaNV());
+            intent.putExtra("tenNV", nvEdit.getTenNV());
+            intent.putExtra("queQuan", nvEdit.getQueQuan());
+            intent.putExtra("gioiTinh", nvEdit.getGioiTinh());
+            intent.putExtra("namSinh", nvEdit.getNamSinh());
+            intent.putExtra("vaiTro", nvEdit.getVaiTro());
+            intent.putExtra("email", nvEdit.getEmail());
+            intent.putExtra("sdt", nvEdit.getSdt());
+            intent.putExtra("user", nvEdit.getUser());
+            intent.putExtra("pass", nvEdit.getPass());
+
+            startActivity(intent);
+
+        } else if (item.getItemId() == R.id.menu_delete) {
+            // Xoá
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Xác nhận xóa");
+            builder.setMessage("Bạn có chắc xóa Nhân viên này?");
+            builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    boolean kq = nhanVienQuery.xoaNhanVien(nvEdit.getMaNV());
+                    if (kq == true) {
+                        Toast.makeText(NhanVienActivity.this, "Đã xóa!", Toast.LENGTH_SHORT).show();
+                        loadData(); // Tải lại danh sách
                     } else {
-                        Toast.makeText(this, "Xóa thất bại", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NhanVienActivity.this, "Xóa thất bại!", Toast.LENGTH_SHORT).show();
                     }
-                })
-                .setNegativeButton("Hủy", null)
-                .show();
-    }
-
-    private void setSpinnerValue(Spinner spinner, String value) {
-        ArrayAdapter adapter = (ArrayAdapter) spinner.getAdapter();
-        for (int i = 0; i < adapter.getCount(); i++) {
-            if (adapter.getItem(i).toString().equalsIgnoreCase(value)) {
-                spinner.setSelection(i);
-                break;
-            }
+                }
+            });
+            builder.setNegativeButton("Không", null);
+            builder.show();
         }
+
+        return true;
     }
 }

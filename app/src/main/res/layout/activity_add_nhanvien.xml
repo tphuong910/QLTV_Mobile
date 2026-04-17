@@ -14,12 +14,12 @@
         android:paddingEnd="16dp"
         android:paddingBottom="20dp">
 
-        <ImageButton
-            android:id="@+id/btnBackAddSach"
+        <ImageView
+            android:id="@+id/imgBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
+            android:padding="8dp"
             android:src="@android:drawable/ic_media_previous"
             android:tint="@color/white" />
 
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Thêm Sách"
+            android:text="Thêm Nhân Viên"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -51,130 +51,162 @@
                 android:padding="16dp">
 
                 <EditText
-                    android:id="@+id/edtTenSach"
+                    android:id="@+id/edtMaNV"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input_disabled"
+                    android:enabled="false"
+                    android:hint="Mã nhân viên"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <EditText
+                    android:id="@+id/edtTenNV"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/bg_form_input"
-                    android:hint="Tên sách"
+                    android:hint="Tên nhân viên"
                     android:inputType="text"
                     android:paddingHorizontal="12dp"
                     android:textColor="@color/colorTextPrimary"
                     android:textColorHint="@color/colorTextSecondary" />
 
                 <EditText
-                    android:id="@+id/edtSoLuong"
+                    android:id="@+id/edtQueQuan"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/bg_form_input"
-                    android:hint="Số lượng"
+                    android:hint="Quê quán"
+                    android:inputType="text"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:text="Giới tính"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spnGioiTinh"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:paddingHorizontal="10dp" />
+
+                <EditText
+                    android:id="@+id/edtNamSinh"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Năm sinh"
                     android:inputType="number"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:text="Vai trò"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spnVaiTro"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:paddingHorizontal="10dp" />
+
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
                     android:paddingHorizontal="12dp"
                     android:textColor="@color/colorTextPrimary"
                     android:textColorHint="@color/colorTextSecondary" />
 
                 <EditText
-                    android:id="@+id/edtNamXB"
+                    android:id="@+id/edtSdt"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/bg_form_input"
-                    android:hint="Năm xuất bản"
-                    android:inputType="number"
+                    android:hint="Số điện thoại"
+                    android:inputType="phone"
                     android:paddingHorizontal="12dp"
                     android:textColor="@color/colorTextPrimary"
                     android:textColorHint="@color/colorTextSecondary" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:text="Thể loại"
-                    android:textColor="@color/colorTextPrimary"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:id="@+id/spnMaTL"
+                <EditText
+                    android:id="@+id/edtUser"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/bg_form_input"
-                    android:paddingHorizontal="10dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:text="Tác giả"
+                    android:hint="Tên đăng nhập"
+                    android:inputType="text"
+                    android:paddingHorizontal="12dp"
                     android:textColor="@color/colorTextPrimary"
-                    android:textStyle="bold" />
+                    android:textColorHint="@color/colorTextSecondary" />
 
-                <Spinner
-                    android:id="@+id/spnMaTG"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/bg_form_input"
-                    android:paddingHorizontal="10dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:text="Nhà xuất bản"
-                    android:textColor="@color/colorTextPrimary"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:id="@+id/spnMaNXB"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/bg_form_input"
-                    android:paddingHorizontal="10dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:text="Ngôn ngữ"
-                    android:textColor="@color/colorTextPrimary"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:id="@+id/spnMaNN"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/bg_form_input"
-                    android:paddingHorizontal="10dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:text="Vị trí kệ"
-                    android:textColor="@color/colorTextPrimary"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:id="@+id/spnMaViTri"
+                <EditText
+                    android:id="@+id/edtPass"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginBottom="14dp"
                     android:background="@drawable/bg_form_input"
-                    android:paddingHorizontal="10dp" />
+                    android:hint="Mật khẩu"
+                    android:inputType="textPassword"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
 
-                <Button
-                    android:id="@+id/btnSaveSach"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:background="@drawable/bg_form_button_primary"
-                    android:text="Lưu lại"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnCancel"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_form_button_secondary"
+                        android:text="Hủy"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorDeepBlue"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnSave"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_form_button_primary"
+                        android:text="Thêm"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

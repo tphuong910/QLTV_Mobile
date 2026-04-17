@@ -2,73 +2,106 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:gravity="center_horizontal"
-    android:background="#FFFFFF">
+    android:background="@color/colorLightBlueGray"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_header_dashboard"
+        android:gravity="center"
+        android:paddingTop="18dp"
+        android:paddingBottom="22dp"
         android:text="Cập Nhật Nhà Xuất Bản"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="30dp" />
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/edtMaNXB"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Mã NXB"
-        android:padding="10dp"
-        android:background="#E0E0E0"
-        android:enabled="false"
-        android:textColor="#888888"
-        android:layout_marginBottom="15dp" />
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-    <EditText
-        android:id="@+id/edtTenNXB"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Tên Nhà xuất bản"
-        android:padding="10dp"
-        android:background="#E0E0E0"
-        android:layout_marginBottom="15dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
 
-    <EditText
-        android:id="@+id/edtDiaChi"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Địa chỉ"
-        android:padding="10dp"
-        android:background="#E0E0E0"
-        android:layout_marginBottom="15dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_form_card"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-    <EditText
-        android:id="@+id/edtEmail"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:padding="10dp"
-        android:background="#E0E0E0"
-        android:layout_marginBottom="15dp" />
+                <EditText
+                    android:id="@+id/edtMaNXB"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input_disabled"
+                    android:enabled="false"
+                    android:hint="Mã NXB"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textColorHint="@color/colorTextSecondary" />
 
-    <EditText
-        android:id="@+id/edtSoDienThoai"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Số điện thoại"
-        android:inputType="phone"
-        android:padding="10dp"
-        android:background="#E0E0E0"
-        android:layout_marginBottom="25dp" />
+                <EditText
+                    android:id="@+id/edtTenNXB"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Tên nhà xuất bản"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
 
-    <Button
-        android:id="@+id/btnUpdateNXB"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Lưu cập nhật"
-        android:textSize="18sp" />
+                <EditText
+                    android:id="@+id/edtDiaChi"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Địa chỉ"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
 
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <EditText
+                    android:id="@+id/edtSoDienThoai"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="14dp"
+                    android:background="@drawable/bg_form_input"
+                    android:hint="Số điện thoại"
+                    android:inputType="phone"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textColorHint="@color/colorTextSecondary" />
+
+                <Button
+                    android:id="@+id/btnUpdateNXB"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:background="@drawable/bg_form_button_primary"
+                    android:text="Lưu cập nhật"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

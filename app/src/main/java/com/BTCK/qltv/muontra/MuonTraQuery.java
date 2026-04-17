@@ -48,6 +48,28 @@ public class MuonTraQuery {
         return list;
     }
 
+    // Lấy danh sách mượn trả của 1 khách hàng cụ thể
+    public ArrayList<MuonTra> layDanhSachTheoKhachHang(String maDG) {
+        ArrayList<MuonTra> list = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String query = "SELECT mt.MaMT, mt.MaDG, mt.MaNV, mt.NgayMuon, mt.HanTra, mt.TrangThai, d.TenDG " +
+                "FROM muontra mt LEFT JOIN docgia d ON mt.MaDG = d.MaDG WHERE mt.MaDG = ? ORDER BY mt.NgayMuon DESC";
+        Cursor cursor = db.rawQuery(query, new String[]{maDG});
+        while (cursor.moveToNext()) {
+            MuonTra mt = new MuonTra();
+            mt.setMaMT(cursor.getString(0));
+            mt.setMaDG(cursor.getString(1));
+            mt.setMaNV(cursor.getString(2));
+            mt.setNgayMuon(cursor.getString(3));
+            mt.setHanTra(cursor.getString(4));
+            mt.setTrangThai(cursor.getString(5));
+            mt.setTenDG(cursor.getString(6));
+            list.add(mt);
+        }
+        cursor.close();
+        return list;
+    }
+
     // Tự sinh mã phiếu mượn dạng MT01, MT02,... dựa theo mã cuối trong DB
     public String taoMaMuonTraMoi() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();

@@ -17,13 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.BTCK.qltv.R;
 
-
 import java.util.ArrayList;
 
 public class KeSachActivity extends AppCompatActivity {
 
     private EditText edtTimKiem;
-    private ImageButton btnThem;
+    private ImageButton btnThem, btnBack;
     private ListView lvKeSach;
     private ArrayList<KeSach> listKeSach;
     private ArrayAdapter<KeSach> adapter;
@@ -34,15 +33,18 @@ public class KeSachActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ke_sach);
 
-        // Đặt tiêu đề Toolbar nếu cần
-        setTitle("Quản lý Kệ Sách");
-
         edtTimKiem = findViewById(R.id.edtTimKiem);
         btnThem = findViewById(R.id.btnThem);
+        btnBack = findViewById(R.id.btnBackKeSach);
         lvKeSach = findViewById(R.id.lvKeSach);
 
         keSachQuery = new KeSachQuery(this);
         listKeSach = new ArrayList<>();
+
+        // Nút quay lại
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
 
         setupListView();
         loadData("");
@@ -55,8 +57,7 @@ public class KeSachActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 loadData(s.toString());
             }
-            @Override
-            public void afterTextChanged(Editable s) {}
+            @Override public void afterTextChanged(Editable s) {}
         });
 
         // Chức năng Thêm Mới
@@ -76,17 +77,14 @@ public class KeSachActivity extends AppCompatActivity {
     }
 
     private void setupListView() {
-        adapter = new ArrayAdapter<KeSach>(this, R.layout.item_ke_sach, listKeSach) {
+        adapter = new ArrayAdapter<KeSach>(this, R.layout.item_list_advanced, android.R.id.text1, listKeSach) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                if (convertView == null) {
-                    convertView = getLayoutInflater().inflate(R.layout.item_ke_sach, null);
-                }
-                TextView tvHienThi = convertView.findViewById(R.id.tvHienThi);
+                View view = super.getView(position, convertView, parent);
+                TextView text = view.findViewById(android.R.id.text1);
                 KeSach ks = listKeSach.get(position);
-                // Hiển thị định dạng: Tên Kệ (Mã Vị Trí) giống như hình ảnh
-                tvHienThi.setText(ks.getTenKe() + " (" + ks.getMaViTri() + ")");
-                return convertView;
+                text.setText(ks.getTenKe() + " (" + ks.getMaViTri() + ")");
+                return view;
             }
         };
         lvKeSach.setAdapter(adapter);
@@ -98,9 +96,9 @@ public class KeSachActivity extends AppCompatActivity {
                 .setTitle("Tùy chọn: " + ks.getTenKe())
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
-                        showDialogThêmSua(ks); // Gọi dialog Sửa
+                        showDialogThêmSua(ks);
                     } else if (which == 1) {
-                        xoaKeSach(ks); // Gọi hàm Xóa
+                        xoaKeSach(ks);
                     }
                 }).show();
     }
@@ -119,7 +117,7 @@ public class KeSachActivity extends AppCompatActivity {
         if (isEdit) {
             builder.setTitle("Sửa Kệ Sách");
             edtMaViTri.setText(ks.getMaViTri());
-            edtMaViTri.setEnabled(false); // Không cho sửa Khóa Chính
+            edtMaViTri.setEnabled(false);
             edtTenKe.setText(ks.getTenKe());
             edtMoTa.setText(ks.getMoTa());
         } else {
