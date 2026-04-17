@@ -47,10 +47,11 @@ public class NgonNguActivity extends AppCompatActivity {
 
         ngonNguQuery = new NgonNguQuery(this);
 
-        loadData();
-
+        loadData("");
         // Sự kiện quay lại
-        imgBack.setOnClickListener(v -> finish());
+        if (imgBack != null) {
+            imgBack.setOnClickListener(v -> finish());
+        }
 
         // Sự kiện khi nhấn nút thêm mới
         fabThem.setOnClickListener(v -> {
@@ -66,7 +67,7 @@ public class NgonNguActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Bạn có thể viết thêm hàm tìm kiếm trong NgonNguQuery nếu cần
+                loadData(s.toString());
             }
 
             @Override
@@ -77,8 +78,8 @@ public class NgonNguActivity extends AppCompatActivity {
         registerForContextMenu(lvNgonNgu);
     }
 
-    private void loadData() {
-        listNgonNgu = ngonNguQuery.layTatCaNgonNgu();
+    private void loadData(String keyword) {
+        listNgonNgu = ngonNguQuery.layDanhSach(keyword);
         adapter = new NgonNguAdapter(this, listNgonNgu);
         lvNgonNgu.setAdapter(adapter);
     }
@@ -86,7 +87,7 @@ public class NgonNguActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadData(); // Cập nhật lại danh sách khi quay lại từ trang thêm/sửa
+        loadData(etTimKiem.getText().toString()); // Cập nhật lại danh sách khi quay lại từ trang thêm/sửa
     }
 
     // Khởi tạo menu khi nhấn giữ vào một dòng trong danh sách
@@ -99,6 +100,8 @@ public class NgonNguActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        if (info == null) return super.onContextItemSelected(item);
+        
         NgonNgu nn = listNgonNgu.get(info.position);
 
         if (item.getItemId() == R.id.menu_update) {
@@ -122,7 +125,7 @@ public class NgonNguActivity extends AppCompatActivity {
                 .setPositiveButton("Xóa", (dialog, which) -> {
                     if (ngonNguQuery.xoaNgonNgu(nn.getMaNN())) {
                         Toast.makeText(this, "Đã xóa thành công!", Toast.LENGTH_SHORT).show();
-                        loadData();
+                        loadData(etTimKiem.getText().toString());
                     } else {
                         Toast.makeText(this, "Xóa thất bại!", Toast.LENGTH_SHORT).show();
                     }

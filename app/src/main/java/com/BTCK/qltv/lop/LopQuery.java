@@ -17,25 +17,32 @@ public class LopQuery {
         dbHelper = new SQLiteHelper(context);
     }
 
-    // Lấy danh sách lớp kèm tên khoa
-    public List<Lop> layTatCaLop() {
+    public List<Lop> layDanhSach(String keyword) {
         List<Lop> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String sql = "SELECT lop.*, khoa.TenKhoa FROM lop JOIN khoa ON lop.MaKhoa = khoa.MaKhoa";
-        Cursor cursor = db.rawQuery(sql, null);
+        String[] args = null;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql += " WHERE TenLop LIKE ? OR MaLop LIKE ? OR khoa.TenKhoa LIKE ?";
+            args = new String[]{"%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%"};
+        }
+        Cursor cursor = db.rawQuery(sql, args);
         while (cursor.moveToNext()) {
             list.add(new Lop(
-                    cursor.getString(0), // MaLop
-                    cursor.getString(1), // TenLop
-                    cursor.getString(2), // MaKhoa
-                    cursor.getString(3)  // TenKhoa
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3)
             ));
         }
         cursor.close();
         return list;
     }
 
-    // Thêm lớp mới
+    public List<Lop> layTatCaLop() {
+        return layDanhSach("");
+    }
+
     public boolean themLop(String ma, String ten, String maKhoa) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -45,7 +52,6 @@ public class LopQuery {
         return db.insert("lop", null, values) > 0;
     }
 
-    // Cập nhật lớp
     public boolean capNhatLop(String ma, String ten, String maKhoa) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -54,13 +60,11 @@ public class LopQuery {
         return db.update("lop", values, "MaLop = ?", new String[]{ma}) > 0;
     }
 
-    // Xóa lớp
     public boolean xoaLop(String maLop) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         return db.delete("lop", "MaLop = ?", new String[]{maLop}) > 0;
     }
 
-    // Sinh mã lớp tự động (L001, L002...)
     public String taoMaLopMoi() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT MaLop FROM lop ORDER BY MaLop DESC LIMIT 1", null);
@@ -81,7 +85,6 @@ public class LopQuery {
         return maMoi;
     }
 
-    // Lấy danh sách khoa để đổ vào Spinner
     public List<String[]> layDanhSachKhoa() {
         List<String[]> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();

@@ -15,11 +15,16 @@ public class NgonNguQuery {
         dbHelper = new SQLiteHelper(context);
     }
 
-    // Lấy danh sách tất cả ngôn ngữ
-    public List<NgonNgu> layTatCaNgonNgu() {
+    public List<NgonNgu> layDanhSach(String keyword) {
         List<NgonNgu> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM ngonngu", null);
+        String sql = "SELECT * FROM ngonngu";
+        String[] args = null;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql += " WHERE TenNN LIKE ? OR MaNN LIKE ?";
+            args = new String[]{"%" + keyword + "%", "%" + keyword + "%"};
+        }
+        Cursor cursor = db.rawQuery(sql, args);
         while (cursor.moveToNext()) {
             list.add(new NgonNgu(cursor.getString(0), cursor.getString(1)));
         }
@@ -27,7 +32,10 @@ public class NgonNguQuery {
         return list;
     }
 
-    // Thêm ngôn ngữ mới
+    public List<NgonNgu> layTatCaNgonNgu() {
+        return layDanhSach("");
+    }
+
     public boolean themNgonNgu(String ma, String ten) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -36,7 +44,6 @@ public class NgonNguQuery {
         return db.insert("ngonngu", null, values) > 0;
     }
 
-    // Cập nhật ngôn ngữ
     public boolean capNhatNgonNgu(String ma, String tenMoi) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -44,22 +51,16 @@ public class NgonNguQuery {
         return db.update("ngonngu", values, "MaNN = ?", new String[]{ma}) > 0;
     }
 
-    // Hàm tự động tạo mã ngôn ngữ mới
     public String taoMaNNMoi() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        // Lấy mã ngôn ngữ cuối cùng, sắp xếp giảm dần để lấy mã lớn nhất
         Cursor cursor = db.rawQuery("SELECT MaNN FROM ngonngu ORDER BY MaNN DESC LIMIT 1", null);
-
-        String maMoi = "NN001"; // Mã mặc định nếu chưa có ngôn ngữ nào
-
+        String maMoi = "NN001";
         if (cursor.moveToFirst()) {
             String maCuoi = cursor.getString(0);
             if (maCuoi != null && maCuoi.length() > 2) {
                 try {
-                    // Cắt chữ NN ở đầu, lấy phần số phía sau và cộng thêm 1
                     int so = Integer.parseInt(maCuoi.substring(2));
                     so++;
-                    // Định dạng lại thành chữ NN và 3 chữ số (VD: NN010)
                     maMoi = String.format("NN%03d", so);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -69,7 +70,7 @@ public class NgonNguQuery {
         cursor.close();
         return maMoi;
     }
-    // Xóa ngôn ngữ
+
     public boolean xoaNgonNgu(String maNN) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         return db.delete("ngonngu", "MaNN = ?", new String[]{maNN}) > 0;

@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,8 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.BTCK.qltv.R;
 import com.BTCK.qltv.dashboard.DashboardQuery;
-import com.BTCK.qltv.dashboard.Module;
-import com.BTCK.qltv.dashboard.ModuleAdapter;
 import com.BTCK.qltv.database.SQLiteHelper;
 import com.BTCK.qltv.login.LoginActivity;
 import com.BTCK.qltv.muontra.MuonTra;
@@ -35,9 +33,7 @@ public class HomeKhachHangActivity extends AppCompatActivity {
 
     private TextView tvWelcome, tvTotalBooks, tvBorrowedBooks;
     private ImageView imgMenu;
-    private ListView lvModules;
-    private List<Module> moduleList;
-    private ModuleAdapter adapter;
+    private LinearLayout btnDanhSach, btnMuonSach, btnLichSu;
     
     private DashboardQuery dashboardQuery;
     private MuonTraQuery muonTraQuery;
@@ -53,7 +49,7 @@ public class HomeKhachHangActivity extends AppCompatActivity {
         initViews();
         loadUserInfo();
         loadStatistics();
-        setupListView();
+        setupClickListeners();
 
         imgMenu.setOnClickListener(v -> showPopupMenu());
     }
@@ -69,7 +65,18 @@ public class HomeKhachHangActivity extends AppCompatActivity {
         tvTotalBooks = findViewById(R.id.tvTotalBooksKH);
         tvBorrowedBooks = findViewById(R.id.tvBorrowedBooksKH);
         imgMenu = findViewById(R.id.imgMenuKH);
-        lvModules = findViewById(R.id.lvModulesKH);
+        
+        btnDanhSach = findViewById(R.id.nutDanhSach);
+        btnDanhSach.setEnabled(true);
+        btnDanhSach.setAlpha(1f);
+
+        btnMuonSach = findViewById(R.id.nutMuonSach);
+        btnMuonSach.setEnabled(true);
+        btnMuonSach.setAlpha(1f);
+
+        btnLichSu = findViewById(R.id.nutLichSu);
+        btnLichSu.setEnabled(true);
+        btnLichSu.setAlpha(1f);
 
         dashboardQuery = new DashboardQuery(this);
         muonTraQuery = new MuonTraQuery(this);
@@ -86,7 +93,6 @@ public class HomeKhachHangActivity extends AppCompatActivity {
 
     private void loadStatistics() {
         tvTotalBooks.setText(String.valueOf(dashboardQuery.layTongSach()));
-        // Lấy số lượng sách đang mượn của chính khách hàng này
         ArrayList<MuonTra> listMT = muonTraQuery.layDanhSachTheoKhachHang(maDG);
         int count = 0;
         for (MuonTra mt : listMT) {
@@ -97,28 +103,14 @@ public class HomeKhachHangActivity extends AppCompatActivity {
         tvBorrowedBooks.setText(String.valueOf(count));
     }
 
-    private void setupListView() {
-        moduleList = new ArrayList<>();
-        moduleList.add(new Module("Danh sách sách", R.drawable.ic_book));
-        moduleList.add(new Module("Mượn sách mới", R.drawable.ic_borrow_return));
-        moduleList.add(new Module("Lịch sử mượn trả", R.drawable.ic_library));
-
-        adapter = new ModuleAdapter(this, moduleList);
-        lvModules.setAdapter(adapter);
-
-        lvModules.setOnItemClickListener((parent, view, position, id) -> {
-            switch (position) {
-                case 0: // Xem danh sách sách
-                    showSachListDialog();
-                    break;
-                case 1: // Mượn sách mới
-                    startActivityForResult(new Intent(this, MuonSachKhachHangActivity.class), 100);
-                    break;
-                case 2: // Lịch sử mượn trả
-                    showMuonTraHistoryDialog();
-                    break;
-            }
+    private void setupClickListeners() {
+        btnDanhSach.setOnClickListener(v -> showSachListDialog());
+        
+        btnMuonSach.setOnClickListener(v -> {
+            startActivityForResult(new Intent(this, MuonSachKhachHangActivity.class), 100);
         });
+        
+        btnLichSu.setOnClickListener(v -> showMuonTraHistoryDialog());
     }
 
     private void showSachListDialog() {

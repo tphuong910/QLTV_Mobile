@@ -17,25 +17,33 @@ public class TacGiaQuery {
         dbHelper = new SQLiteHelper(context);
     }
 
-    // Lấy toàn bộ danh sách tác giả
     public List<TacGia> layTatCaTacGia() {
+        return layDanhSach("");
+    }
+
+    public List<TacGia> layDanhSach(String keyword) {
         List<TacGia> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM tacgia", null);
+        String sql = "SELECT * FROM tacgia";
+        String[] args = null;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql += " WHERE TenTG LIKE ? OR QuocTich LIKE ? OR MaTG LIKE ?";
+            args = new String[]{"%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%"};
+        }
+        Cursor cursor = db.rawQuery(sql, args);
         while (cursor.moveToNext()) {
             list.add(new TacGia(
-                    cursor.getString(0), // MaTG
-                    cursor.getString(1), // TenTG
-                    cursor.getString(2), // NamSinh
-                    cursor.getString(3), // GioiTinh
-                    cursor.getString(4)  // QuocTich
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    cursor.getString(4)
             ));
         }
         cursor.close();
         return list;
     }
 
-    // Thêm tác giả mới
     public boolean themTacGia(String ma, String ten, String namSinh, String gioiTinh, String quocTich) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -47,7 +55,6 @@ public class TacGiaQuery {
         return db.insert("tacgia", null, values) > 0;
     }
 
-    // Cập nhật tác giả
     public boolean capNhatTacGia(String ma, String ten, String namSinh, String gioiTinh, String quocTich) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -58,19 +65,15 @@ public class TacGiaQuery {
         return db.update("tacgia", values, "MaTG = ?", new String[]{ma}) > 0;
     }
 
-    // Xóa tác giả
     public boolean xoaTacGia(String maTG) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         return db.delete("tacgia", "MaTG = ?", new String[]{maTG}) > 0;
     }
 
-    // Tự động sinh mã tác giả mới
     public String taoMaTGMoi() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT MaTG FROM tacgia ORDER BY MaTG DESC LIMIT 1", null);
-
         String maMoi = "TG001";
-
         if (cursor.moveToFirst()) {
             String maCuoi = cursor.getString(0);
             if (maCuoi != null && maCuoi.length() > 2) {

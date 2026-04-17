@@ -6,6 +6,7 @@
     android:background="@color/colorLightBlueGray"
     android:orientation="vertical">
 
+    <!-- Header tương tự Admin -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,6 +56,7 @@
             app:tint="@color/white" />
     </RelativeLayout>
 
+    <!-- Thống kê -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,74 +76,67 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:paddingHorizontal="24dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:background="@drawable/bg_stat_card"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tvTotalBooksKH"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_stat_card"
-                    android:elevation="2dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:text="0"
+                    android:textColor="#2196F3"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvTotalBooksKH"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="#2196F3"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Tổng số sách"
-                        android:textColor="@color/colorTextSecondary"
-                        android:textSize="13sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="match_parent" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_stat_card"
-                    android:elevation="2dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_marginTop="8dp"
+                    android:text="Tổng số sách"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tvBorrowedBooksKH"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="#FF9800"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+            <View
+                android:layout_width="16dp"
+                android:layout_height="match_parent" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Sách đang mượn"
-                        android:textColor="@color/colorTextSecondary"
-                        android:textSize="13sp" />
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_stat_card"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvBorrowedBooksKH"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#FF9800"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Sách đang mượn"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -157,14 +152,155 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <ListView
-        android:id="@+id/lvModulesKH"
+    <!-- 3 Nút bấm xếp dọc thay cho ListView -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="12dp"
+        android:clipToPadding="false"
         android:paddingHorizontal="24dp"
-        android:paddingBottom="24dp"
-        android:clipToPadding="false" />
+        android:paddingBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Nút 1: Danh sách sách -->
+            <LinearLayout
+                android:id="@+id/nutDanhSach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_stat_card"
+                android:elevation="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_circle_icon"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/ic_book"
+                        app:tint="@color/colorOrange" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="Danh sách sách"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@android:drawable/ic_media_play"
+                    app:tint="@color/colorTextSecondary" />
+            </LinearLayout>
+
+            <!-- Nút 2: Mượn sách mới -->
+            <LinearLayout
+                android:id="@+id/nutMuonSach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_stat_card"
+                android:elevation="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_circle_icon"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/ic_borrow_return"
+                        app:tint="@color/colorOrange" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="Mượn sách mới"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@android:drawable/ic_media_play"
+                    app:tint="@color/colorTextSecondary" />
+            </LinearLayout>
+
+            <!-- Nút 3: Lịch sử mượn trả -->
+            <LinearLayout
+                android:id="@+id/nutLichSu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_stat_card"
+                android:elevation="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_circle_icon"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/ic_library"
+                        app:tint="@color/colorOrange" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="Lịch sử mượn trả"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@android:drawable/ic_media_play"
+                    app:tint="@color/colorTextSecondary" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

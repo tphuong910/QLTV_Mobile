@@ -1,4 +1,4 @@
-package com.BTCK.qltv.login;
+package com.BTCK.qltv.khachhang;
 
 public class KhachHang {
     private String maDG;
