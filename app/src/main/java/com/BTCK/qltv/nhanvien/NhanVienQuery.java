@@ -43,6 +43,34 @@ public class NhanVienQuery {
         return listNhanVien;
     }
 
+    public List<NhanVien> timKiemNhanVien(String keyword) {
+        List<NhanVien> list = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String sql = "SELECT MaNV, TenNV, QueQuan, GioiTinh, NamSinh, VaiTro, Email, SDT, [User], Pass " +
+                "FROM nhanvien WHERE MaNV LIKE ? OR TenNV LIKE ? OR SDT LIKE ? OR Email LIKE ? ORDER BY MaNV";
+        String wildCard = "%" + keyword + "%";
+        Cursor cursor = db.rawQuery(sql, new String[]{wildCard, wildCard, wildCard, wildCard});
+
+        if (cursor.moveToFirst()) {
+            do {
+                NhanVien nv = new NhanVien();
+                nv.setMaNV(cursor.getString(0));
+                nv.setTenNV(cursor.getString(1));
+                nv.setQueQuan(cursor.getString(2));
+                nv.setGioiTinh(cursor.getString(3));
+                nv.setNamSinh(cursor.getString(4));
+                nv.setVaiTro(cursor.getString(5));
+                nv.setEmail(cursor.getString(6));
+                nv.setSdt(cursor.getString(7));
+                nv.setUser(cursor.getString(8));
+                nv.setPass(cursor.getString(9));
+                list.add(nv);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
     public String taoMaNhanVienMoi() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT MaNV FROM nhanvien ORDER BY MaNV DESC LIMIT 1", null);

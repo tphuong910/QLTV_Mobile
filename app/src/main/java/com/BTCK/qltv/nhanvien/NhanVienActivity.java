@@ -104,46 +104,31 @@ public class NhanVienActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        // Xóa hết rồi chép mảng vào
+        String keyword = edtSearch.getText().toString().trim();
         listGoc.clear();
-        listGoc.addAll(nhanVienQuery.layDanhSachNhanVien());
+        if (keyword.isEmpty()) {
+            listGoc.addAll(nhanVienQuery.layDanhSachNhanVien());
+        } else {
+            listGoc.addAll(nhanVienQuery.timKiemNhanVien(keyword));
+        }
 
-        // Gọi hàm lọc để đổ danh sách ra
-        filterData(edtSearch.getText().toString());
+        listHienThi.clear();
+        listHienThi.addAll(listGoc);
+
+        listHienThiString.clear();
+        for (NhanVien nv : listHienThi) {
+            String tenNV = nv.getTenNV() == null ? "" : nv.getTenNV();
+            String chuoiCanHien = nv.getMaNV() + " - " + tenNV + " (" + nv.getVaiTro() + ")";
+            listHienThiString.add(chuoiCanHien);
+        }
+
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void filterData(String keyword) {
-        listHienThi.clear();
-        listHienThiString.clear();
-
-        // Xử lý chuỗi tìm kiếm (đổi về chữ in thường)
-        String tuKhoa = keyword;
-        if (tuKhoa == null) {
-            tuKhoa = "";
-        }
-        tuKhoa = tuKhoa.trim().toLowerCase();
-
-        // Chạy vòng lặp for cơ bản duyệt mảng NhanVien
-        for (int i = 0; i < listGoc.size(); i++) {
-            NhanVien nv = listGoc.get(i);
-
-            String tenNV = nv.getTenNV();
-            if (tenNV == null) {
-                tenNV = "";
-            }
-
-            // So sánh tên (đã in thường) với từ khóa
-            if (tuKhoa.equals("") || tenNV.toLowerCase().contains(tuKhoa)) {
-                listHienThi.add(nv);
-
-                // Mảng chuỗi hiển thị chữ
-                String chuoiCanHien = nv.getMaNV() + " - " + tenNV + " (" + nv.getVaiTro() + ")";
-                listHienThiString.add(chuoiCanHien);
-            }
-        }
-
-        // Báo Adapter cập nhật hiển thị mảng
-        adapter.notifyDataSetChanged();
+        loadData();
     }
 
     @Override

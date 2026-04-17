@@ -36,8 +36,6 @@ import java.util.List;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    private static final String ROLE_THU_THU = "Thủ thư";
-
     TextView tvAppName, tvRole;
     ImageView imgMenu;
     ListView lvModules;
@@ -52,7 +50,7 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
+    
         tvRole = findViewById(R.id.tvRole);
         imgMenu = findViewById(R.id.imgMenu);
         lvModules = findViewById(R.id.lvModules);
@@ -80,7 +78,7 @@ public class DashboardActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
         String vaiTro = prefs.getString("VaiTro", "Chưa xác định");
         String vaiTroTrimmed = vaiTro == null ? "" : vaiTro.trim();
-        isThuThu = ROLE_THU_THU.equalsIgnoreCase(vaiTroTrimmed);
+        isThuThu = "Thủ thư".equalsIgnoreCase(vaiTroTrimmed);
 
         tvRole.setText("Vai trò: " + vaiTro);
     }
@@ -108,7 +106,7 @@ public class DashboardActivity extends AppCompatActivity {
         moduleList.add(new Module("Quản lý mượn - trả sách", R.drawable.ic_borrow_return)); // Vị trí 11
 
         if (isThuThu && moduleList.size() > 5) {
-            moduleList.remove(5); // Ẩn "Quản lý nhân viên" nếu là Thủ thư
+            moduleList.remove(5);
         }
 
         adapter = new ModuleAdapter(this, moduleList);
