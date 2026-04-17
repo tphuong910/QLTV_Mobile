@@ -6,13 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -22,33 +18,31 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.BTCK.qltv.R;
+import com.BTCK.qltv.dashboard.DashboardQuery;
+import com.BTCK.qltv.dashboard.Module;
+import com.BTCK.qltv.dashboard.ModuleAdapter;
 import com.BTCK.qltv.database.SQLiteHelper;
 import com.BTCK.qltv.login.LoginActivity;
 import com.BTCK.qltv.muontra.MuonTra;
 import com.BTCK.qltv.muontra.MuonTraQuery;
 import com.BTCK.qltv.sach.Sach;
 import com.BTCK.qltv.sach.SachQuery;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeKhachHangActivity extends AppCompatActivity {
 
-    private TextView tvWelcome, tvTitle;
+    private TextView tvWelcome, tvTotalBooks, tvBorrowedBooks;
     private ImageView imgMenu;
-    private EditText edtSearch;
-    private ListView lvMain;
-    private TabLayout tabLayout;
-    private FloatingActionButton fabMuonSach;
-
-    private SachQuery sachQuery;
+    private ListView lvModules;
+    private List<Module> moduleList;
+    private ModuleAdapter adapter;
+    
+    private DashboardQuery dashboardQuery;
     private MuonTraQuery muonTraQuery;
+    private SachQuery sachQuery;
     private SQLiteHelper dbHelper;
-
-    private ArrayList<Object> currentList = new ArrayList<>();
-    private ArrayAdapter<Object> adapter;
-    private int currentTab = 0;
     private String maDG;
 
     @Override
@@ -57,50 +51,29 @@ public class HomeKhachHangActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_khach_hang);
 
         initViews();
-        initQueries();
         loadUserInfo();
-        setupTabLayout();
+        loadStatistics();
         setupListView();
-        loadData("");
-
-        edtSearch.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                loadData(s.toString());
-            }
-            @Override public void afterTextChanged(Editable s) {}
-        });
 
         imgMenu.setOnClickListener(v -> showPopupMenu());
-        
-        fabMuonSach.setOnClickListener(v -> {
-            // Mở trang mượn sách mới (Activity riêng)
-            Intent intent = new Intent(HomeKhachHangActivity.this, MuonSachKhachHangActivity.class);
-            startActivityForResult(intent, 100);
-        });
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK) {
-            loadData(""); // Load lại khi mượn thành công
-        }
+    protected void onResume() {
+        super.onResume();
+        loadStatistics();
     }
 
     private void initViews() {
         tvWelcome = findViewById(R.id.tvWelcomeKH);
-        tvTitle = findViewById(R.id.tvTitleKH);
+        tvTotalBooks = findViewById(R.id.tvTotalBooksKH);
+        tvBorrowedBooks = findViewById(R.id.tvBorrowedBooksKH);
         imgMenu = findViewById(R.id.imgMenuKH);
-        edtSearch = findViewById(R.id.edtSearchKH);
-        lvMain = findViewById(R.id.lvMainKH);
-        tabLayout = findViewById(R.id.tabLayoutKH);
-        fabMuonSach = findViewById(R.id.fabMuonSachKH);
-    }
+        lvModules = findViewById(R.id.lvModulesKH);
 
-    private void initQueries() {
-        sachQuery = new SachQuery(this);
+        dashboardQuery = new DashboardQuery(this);
         muonTraQuery = new MuonTraQuery(this);
+        sachQuery = new SachQuery(this);
         dbHelper = new SQLiteHelper(this);
     }
 
@@ -111,66 +84,53 @@ public class HomeKhachHangActivity extends AppCompatActivity {
         tvWelcome.setText("Xin chào, " + ten);
     }
 
-    private void setupTabLayout() {
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                currentTab = tab.getPosition();
-                edtSearch.setText("");
-                updateUIForTab();
-                loadData("");
+    private void loadStatistics() {
+        tvTotalBooks.setText(String.valueOf(dashboardQuery.layTongSach()));
+        // Lấy số lượng sách đang mượn của chính khách hàng này
+        ArrayList<MuonTra> listMT = muonTraQuery.layDanhSachTheoKhachHang(maDG);
+        int count = 0;
+        for (MuonTra mt : listMT) {
+            if (mt.getTrangThai().equals("Đang mượn") || mt.getTrangThai().equals("Chưa trả")) {
+                count++;
             }
-            @Override public void onTabUnselected(TabLayout.Tab tab) {}
-            @Override public void onTabReselected(TabLayout.Tab tab) {}
-        });
-    }
-
-    private void updateUIForTab() {
-        fabMuonSach.setVisibility(currentTab == 1 ? View.VISIBLE : View.GONE);
-        if (currentTab == 0) tvTitle.setText("Danh sách sách hiện có");
-        else tvTitle.setText("Lịch sử mượn trả sách");
-    }
-
-    private void loadData(String keyword) {
-        currentList.clear();
-        if (currentTab == 0) {
-            currentList.addAll(sachQuery.layDanhSach(keyword));
-        } else {
-            currentList.addAll(muonTraQuery.layDanhSachTheoKhachHang(maDG));
         }
-        adapter.notifyDataSetChanged();
+        tvBorrowedBooks.setText(String.valueOf(count));
     }
 
     private void setupListView() {
-        adapter = new ArrayAdapter<Object>(this, android.R.layout.simple_list_item_2, android.R.id.text1, currentList) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView text1 = view.findViewById(android.R.id.text1);
-                TextView text2 = view.findViewById(android.R.id.text2);
+        moduleList = new ArrayList<>();
+        moduleList.add(new Module("Danh sách sách", R.drawable.ic_book));
+        moduleList.add(new Module("Mượn sách mới", R.drawable.ic_borrow_return));
+        moduleList.add(new Module("Lịch sử mượn trả", R.drawable.ic_library));
 
-                Object item = currentList.get(position);
-                if (item instanceof Sach) {
-                    Sach s = (Sach) item;
-                    text1.setText(s.getTenSach());
-                    text2.setText("Tác giả: " + s.getMaTG() + " | SL: " + s.getSoLuong());
-                } else if (item instanceof MuonTra) {
-                    MuonTra mt = (MuonTra) item;
-                    String chiTiet = muonTraQuery.layChiTietMuonTra(mt.getMaMT());
-                    text1.setText(chiTiet);
-                    text2.setText("Mượn: " + mt.getNgayMuon() + " | Hạn: " + mt.getHanTra() + " | " + mt.getTrangThai());
-                }
-                return view;
-            }
-        };
-        lvMain.setAdapter(adapter);
+        adapter = new ModuleAdapter(this, moduleList);
+        lvModules.setAdapter(adapter);
 
-        lvMain.setOnItemClickListener((parent, view, position, id) -> {
-            Object item = currentList.get(position);
-            if (currentTab == 0 && item instanceof Sach) {
-                showSachDetails((Sach) item);
+        lvModules.setOnItemClickListener((parent, view, position, id) -> {
+            switch (position) {
+                case 0: // Xem danh sách sách
+                    showSachListDialog();
+                    break;
+                case 1: // Mượn sách mới
+                    startActivityForResult(new Intent(this, MuonSachKhachHangActivity.class), 100);
+                    break;
+                case 2: // Lịch sử mượn trả
+                    showMuonTraHistoryDialog();
+                    break;
             }
         });
+    }
+
+    private void showSachListDialog() {
+        List<Sach> listS = sachQuery.layDanhSachSach();
+        ArrayList<String> names = new ArrayList<>();
+        for (Sach s : listS) names.add(s.getTenSach() + " (SL: " + s.getSoLuong() + ")");
+
+        new AlertDialog.Builder(this)
+                .setTitle("Danh sách sách")
+                .setItems(names.toArray(new String[0]), (dialog, which) -> showSachDetails(listS.get(which)))
+                .setPositiveButton("Đóng", null)
+                .show();
     }
 
     private void showSachDetails(Sach sach) {
@@ -179,19 +139,52 @@ public class HomeKhachHangActivity extends AppCompatActivity {
         String tenKe = getColumnValue("kesach", "TenKe", "MaViTri", sach.getMaViTri());
         String tenNN = getColumnValue("ngonngu", "TenNN", "MaNN", sach.getMaNN());
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Thể loại: ").append(tenTL).append("\n")
-          .append("Tác giả: ").append(sach.getMaTG()).append("\n")
-          .append("Nhà xuất bản: ").append(tenNXB).append("\n")
-          .append("Ngôn ngữ: ").append(tenNN).append("\n")
-          .append("Vị trí: ").append(tenKe).append("\n")
-          .append("Năm XB: ").append(sach.getNamXB()).append("\n")
-          .append("Số lượng hiện có: ").append(sach.getSoLuong());
+        String detail = "Thể loại: " + tenTL + "\nTác giả: " + sach.getMaTG() + 
+                         "\nNXB: " + tenNXB + "\nNgôn ngữ: " + tenNN + 
+                         "\nVị trí: " + tenKe + "\nNăm XB: " + sach.getNamXB() + 
+                         "\nSố lượng: " + sach.getSoLuong();
 
         new AlertDialog.Builder(this)
                 .setTitle(sach.getTenSach())
-                .setMessage(sb.toString())
+                .setMessage(detail)
+                .setPositiveButton("Mượn ngay", (dialog, which) -> {
+                    startActivityForResult(new Intent(this, MuonSachKhachHangActivity.class), 100);
+                })
+                .setNegativeButton("Đóng", null)
+                .show();
+    }
+
+    private void showMuonTraHistoryDialog() {
+        ArrayList<MuonTra> listMT = muonTraQuery.layDanhSachTheoKhachHang(maDG);
+        ArrayList<String> info = new ArrayList<>();
+        for (MuonTra mt : listMT) {
+            String ct = muonTraQuery.layChiTietMuonTra(mt.getMaMT());
+            info.add(ct + "\nNgày mượn: " + mt.getNgayMuon() + " | Trạng thái: " + mt.getTrangThai());
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Lịch sử mượn trả")
+                .setItems(info.toArray(new String[0]), (dialog, which) -> {
+                    MuonTra selected = listMT.get(which);
+                    if (!selected.getTrangThai().equals("Đã trả")) {
+                        showReturnDialog(selected);
+                    }
+                })
                 .setPositiveButton("Đóng", null)
+                .show();
+    }
+
+    private void showReturnDialog(MuonTra mt) {
+        new AlertDialog.Builder(this)
+                .setTitle("Trả sách")
+                .setMessage("Bạn muốn trả sách này?")
+                .setPositiveButton("Xác nhận", (dialog, which) -> {
+                    if (muonTraQuery.traSach(mt.getMaMT(), "Tốt")) {
+                        Toast.makeText(this, "Trả sách thành công!", Toast.LENGTH_SHORT).show();
+                        loadStatistics();
+                    }
+                })
+                .setNegativeButton("Hủy", null)
                 .show();
     }
 
@@ -206,13 +199,26 @@ public class HomeKhachHangActivity extends AppCompatActivity {
 
     private void showPopupMenu() {
         PopupMenu popupMenu = new PopupMenu(this, imgMenu);
+        popupMenu.getMenu().add("Liên hệ quản lý");
         popupMenu.getMenu().add("Đăng xuất");
         popupMenu.setOnMenuItemClickListener(item -> {
-            getSharedPreferences("UserSession", Context.MODE_PRIVATE).edit().clear().apply();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+            if (item.getTitle().equals("Đăng xuất")) {
+                getSharedPreferences("UserSession", Context.MODE_PRIVATE).edit().clear().apply();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            } else {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:0987654321"));
+                startActivity(callIntent);
+            }
             return true;
         });
         popupMenu.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) loadStatistics();
     }
 }
