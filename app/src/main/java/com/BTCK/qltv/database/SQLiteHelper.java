@@ -328,6 +328,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         db.execSQL("INSERT OR IGNORE INTO chitietmuontra (MaMT, MaSach, SoLuong) VALUES " +
             "('MT01', 'S001', 1)," +
+            "('MT02', 'S002', 2)," +
             "('MT03', 'S001', 3)," +
             "('MT03', 'S005', 3)");
 
