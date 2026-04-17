@@ -319,9 +319,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "('MT03', 'DG002', 'NV001', '2026-01-01', '2026-01-22', 'Đã trả')");
 
         db.execSQL("INSERT OR IGNORE INTO chitietmuontra (MaMT, MaSach, SoLuong) VALUES " +
-                "('MT01', 'S001', 1)," +
-                "('MT03', 'S001', 3)," +
-                "('MT03', 'S005', 3)");
+            "('MT01', 'S001', 1)," +
+            "('MT02', 'S002', 2)," +
+            "('MT03', 'S001', 3)," +
+            "('MT03', 'S005', 3)");
 
         db.execSQL("INSERT OR IGNORE INTO thethuvien (MaThe, MaDG, NgayCap, NgayHetHan, TrangThai) VALUES " +
                 "('TTV001', 'DG001', '2025-06-01', '2025-07-02', 'Hết hiệu lực')," +

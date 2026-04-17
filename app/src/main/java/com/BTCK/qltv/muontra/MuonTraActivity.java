@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -118,24 +119,28 @@ public class MuonTraActivity extends AppCompatActivity {
         String chiTiet = muonTraQuery.layChiTietMuonTra(mt.getMaMT());
         String tenDG = mt.getTenDG() != null ? mt.getTenDG() : mt.getMaDG();
 
-        // Chỉ cho trả sách nếu chưa trả
-        ArrayList<String> options = new ArrayList<>();
-        if ("Đang mượn".equals(mt.getTrangThai()) || "Chưa trả".equals(mt.getTrangThai())) {
-            options.add("Trả sách");
+        // Xây dựng nội dung chi tiết phiếu mượn
+        StringBuilder msg = new StringBuilder();
+        msg.append("Đọc giả: ").append(tenDG);
+        msg.append("\nNgày mượn: ").append(mt.getNgayMuon());
+        msg.append("\nHạn trả: ").append(mt.getHanTra());
+        msg.append("\nTrạng thái: ").append(mt.getTrangThai());
+        if (chiTiet != null && !chiTiet.isEmpty()) {
+            msg.append("\n\nSách đã mượn:\n").append(chiTiet);
         }
-        options.add("Xóa");
 
-        new AlertDialog.Builder(this)
-                .setTitle(mt.getMaMT() + " - " + tenDG)
-                .setMessage("Sách mượn:\n" + chiTiet + "\nNgày mượn: " + mt.getNgayMuon() + "\nHạn trả: " + mt.getHanTra())
-                .setItems(options.toArray(new String[0]), (dialog, which) -> {
-                    String chosen = options.get(which);
-                    if ("Trả sách".equals(chosen)) {
-                        showDialogTraSach(mt);
-                    } else if ("Xóa".equals(chosen)) {
-                        xoaMuonTra(mt);
-                    }
-                }).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Phiếu mượn " + mt.getMaMT())
+                .setMessage(msg.toString());
+
+        // Nút trả sách chỉ hiện khi chưa trả
+        if ("Chưa trả".equals(mt.getTrangThai())) {
+            builder.setPositiveButton("Trả sách", (dialog, which) -> showDialogTraSach(mt));
+        }
+
+        builder.setNeutralButton("Xóa", (dialog, which) -> xoaMuonTra(mt));
+        builder.setNegativeButton("Đóng", null);
+        builder.show();
     }
 
     // Dialog tạo phiếu mượn sách mới
@@ -257,12 +262,38 @@ public class MuonTraActivity extends AppCompatActivity {
 
     // Dialog chọn tình trạng sách khi trả
     private void showDialogTraSach(MuonTra mt) {
+        String chiTiet = muonTraQuery.layChiTietMuonTra(mt.getMaMT());
         String[] tinhTrangArr = {"Tốt", "Hư hỏng nhẹ", "Hư hỏng nặng"};
+
+        // Tạo layout hiển thị chi tiết sách và radio chọn tình trạng
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(60, 30, 60, 10);
+
+        TextView tvInfo = new TextView(this);
+        tvInfo.setTextSize(15);
+        tvInfo.setText("Sách trả:\n" + chiTiet + "\n\nChọn tình trạng sách:");
+        layout.addView(tvInfo);
+
+        android.widget.RadioGroup radioGroup = new android.widget.RadioGroup(this);
+        for (int i = 0; i < tinhTrangArr.length; i++) {
+            android.widget.RadioButton rb = new android.widget.RadioButton(this);
+            rb.setText(tinhTrangArr[i]);
+            rb.setId(i);
+            radioGroup.addView(rb);
+        }
+        layout.addView(radioGroup);
+
         new AlertDialog.Builder(this)
                 .setTitle("Trả sách - " + mt.getMaMT())
-                .setMessage("Chọn tình trạng sách:")
-                .setItems(tinhTrangArr, (dialog, which) -> {
-                    if (muonTraQuery.traSach(mt.getMaMT(), tinhTrangArr[which])) {
+                .setView(layout)
+                .setPositiveButton("Xác nhận", (dialog, which) -> {
+                    int selected = radioGroup.getCheckedRadioButtonId();
+                    if (selected < 0) {
+                        Toast.makeText(this, "Vui lòng chọn tình trạng sách!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (muonTraQuery.traSach(mt.getMaMT(), tinhTrangArr[selected])) {
                         Toast.makeText(this, "Trả sách thành công!", Toast.LENGTH_SHORT).show();
                         loadData(edtTimKiem.getText().toString());
                     } else {
@@ -272,7 +303,6 @@ public class MuonTraActivity extends AppCompatActivity {
                 .setNegativeButton("Hủy", null)
                 .show();
     }
-
     // Mở DatePicker cho người dùng chọn ngày
     private void showDatePicker(EditText target) {
         Calendar cal = Calendar.getInstance();

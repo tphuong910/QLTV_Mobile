@@ -230,11 +230,31 @@ public class MuonTraQuery {
         }
     }
 
-    // Xóa phiếu mượn và các bản ghi liên quan (phiếu trả, chi tiết mượn)
+    // Xóa phiếu mượn và các bản ghi liên quan, hoàn trả sách nếu chưa trả
     public boolean xoaMuonTra(String maMT) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
+            // Kiểm tra trạng thái, nếu chưa trả thì cộng lại số lượng sách vào kho
+            Cursor cursorStatus = db.rawQuery(
+                    "SELECT TrangThai FROM muontra WHERE MaMT = ?", new String[]{maMT});
+            if (cursorStatus.moveToFirst()) {
+                String trangThai = cursorStatus.getString(0);
+                if ("Chưa trả".equals(trangThai)) {
+                    Cursor cursorCT = db.rawQuery(
+                            "SELECT MaSach, SoLuong FROM chitietmuontra WHERE MaMT = ?",
+                            new String[]{maMT});
+                    while (cursorCT.moveToNext()) {
+                        String maSach = cursorCT.getString(0);
+                        int soLuong = cursorCT.getInt(1);
+                        db.execSQL("UPDATE sach SET SoLuong = SoLuong + ? WHERE MaSach = ?",
+                                new Object[]{soLuong, maSach});
+                    }
+                    cursorCT.close();
+                }
+            }
+            cursorStatus.close();
+
             // Xóa phiếu trả nếu có
             db.delete("phieutra", "MaMT=?", new String[]{maMT});
             // Xóa chi tiết mượn
