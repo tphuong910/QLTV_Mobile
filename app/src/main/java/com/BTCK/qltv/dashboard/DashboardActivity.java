@@ -36,12 +36,15 @@ import java.util.List;
 
 public class DashboardActivity extends AppCompatActivity {
 
+    private static final String ROLE_THU_THU = "Thủ thư";
+
     TextView tvAppName, tvRole;
     ImageView imgMenu;
     ListView lvModules;
     List<Module> moduleList;
     ModuleAdapter adapter;
     DashboardQuery dashboardQuery;
+    private boolean isThuThu = false;
 
     TextView tvTotalBooks, tvTotalCategories, tvBorrowedBooks, tvOverdueBooks;
 
@@ -50,7 +53,6 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        tvAppName = findViewById(R.id.tvAppName);
         tvRole = findViewById(R.id.tvRole);
         imgMenu = findViewById(R.id.imgMenu);
         lvModules = findViewById(R.id.lvModules);
@@ -76,10 +78,10 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void loadUserProfile() {
         SharedPreferences prefs = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
-        String tenNV = prefs.getString("TenNV", "Người dùng");
         String vaiTro = prefs.getString("VaiTro", "Chưa xác định");
+        String vaiTroTrimmed = vaiTro == null ? "" : vaiTro.trim();
+        isThuThu = ROLE_THU_THU.equalsIgnoreCase(vaiTroTrimmed);
 
-        tvAppName.setText("Xin chào, " + tenNV);
         tvRole.setText("Vai trò: " + vaiTro);
     }
 
@@ -105,23 +107,29 @@ public class DashboardActivity extends AppCompatActivity {
         moduleList.add(new Module("Quản lý thẻ thư viện", R.drawable.ic_library)); // Vị trí 10
         moduleList.add(new Module("Quản lý mượn - trả sách", R.drawable.ic_borrow_return)); // Vị trí 11
 
+        if (isThuThu && moduleList.size() > 5) {
+            moduleList.remove(5); // Ẩn "Quản lý nhân viên" nếu là Thủ thư
+        }
+
         adapter = new ModuleAdapter(this, moduleList);
         lvModules.setAdapter(adapter);
 
         lvModules.setOnItemClickListener((parent, view, position, id) -> {
-            switch (position) {
+            int mappedPosition = position;
+            if (isThuThu && mappedPosition >= 5) {
+                mappedPosition++;
+            }
+
+            switch (mappedPosition) {
                 case 0:
                     startActivity(new Intent(DashboardActivity.this, SachActivity.class));
                     break;
                 case 1:
                     startActivity(new Intent(DashboardActivity.this, TheLoaiActivity.class));
                     break;
-
-                // ĐÂY LÀ ĐOẠN ĐƯỢC THÊM VÀO CHO KHOA (VỊ TRÍ SỐ 3)
                 case 3:
                     startActivity(new Intent(DashboardActivity.this, KhoaActivity.class));
                     break;
-                // ĐÂY LÀ ĐOẠN ĐƯỢC THÊM VÀO CHO NHÀ XUẤT BẢN (VỊ TRÍ SỐ 6)
                 case 6:
                     startActivity(new Intent(DashboardActivity.this, NhaXuatBanActivity.class));
                     break;
@@ -134,12 +142,11 @@ public class DashboardActivity extends AppCompatActivity {
                 case 9:
                     startActivity(new Intent(DashboardActivity.this, NgonNguActivity.class));
                     break;
-                case 5: // Giả sử "Quản lý nhân viên" ở vị trí thứ 5 trong danh sách của bạn
+                case 5: 
                     startActivity(new Intent(DashboardActivity.this, NhanVienActivity.class));
                     break;
-                case 8: // Vị trí của "Quản lý kệ sách" trong moduleList
+                case 8:
                     startActivity(new Intent(DashboardActivity.this, KeSachActivity.class));
-
                     break;
                 case 10:
                     startActivity(new Intent(DashboardActivity.this, TheThuvienActivity.class));
