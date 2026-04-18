@@ -30,13 +30,11 @@ public class AddNgonNguActivity extends AppCompatActivity {
 
         ngonNguQuery = new NgonNguQuery(this);
 
-        // Sự kiện đóng màn hình
         imgClose.setOnClickListener(v -> finish());
 
-        // Sinh mã ngôn ngữ tự động và hiển thị lên màn hình
         maNgonNguMoi = ngonNguQuery.taoMaNNMoi();
         etMaNN.setText(maNgonNguMoi);
-        etMaNN.setEnabled(false); // Không cho phép người dùng sửa mã tự động
+        etMaNN.setEnabled(false);
 
         btnLuuNN.setOnClickListener(v -> {
             String ten = etTenNN.getText().toString().trim();
@@ -49,7 +47,7 @@ public class AddNgonNguActivity extends AppCompatActivity {
             boolean isSuccess = ngonNguQuery.themNgonNgu(maNgonNguMoi, ten);
             if (isSuccess) {
                 Toast.makeText(this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                setResult(RESULT_OK); // Thông báo cho Activity trước đó để load lại data
+                setResult(RESULT_OK);
                 finish();
             } else {
                 Toast.makeText(this, "Thêm thất bại", Toast.LENGTH_SHORT).show();

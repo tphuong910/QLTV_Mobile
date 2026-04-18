@@ -48,12 +48,12 @@ public class NgonNguActivity extends AppCompatActivity {
         ngonNguQuery = new NgonNguQuery(this);
 
         loadData("");
-        // Sự kiện quay lại
+
         if (imgBack != null) {
             imgBack.setOnClickListener(v -> finish());
         }
 
-        // Sự kiện khi nhấn nút thêm mới
+        //nút thêm mới
         fabThem.setOnClickListener(v -> {
             // Chuyển sang Activity thêm ngôn ngữ
             Intent intent = new Intent(NgonNguActivity.this, AddNgonNguActivity.class);
@@ -74,7 +74,6 @@ public class NgonNguActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
-        // Đăng ký Context Menu cho ListView để sửa/xóa
         registerForContextMenu(lvNgonNgu);
     }
 
@@ -87,7 +86,7 @@ public class NgonNguActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadData(etTimKiem.getText().toString()); // Cập nhật lại danh sách khi quay lại từ trang thêm/sửa
+        loadData(etTimKiem.getText().toString());
     }
 
     // Khởi tạo menu khi nhấn giữ vào một dòng trong danh sách
@@ -104,8 +103,8 @@ public class NgonNguActivity extends AppCompatActivity {
         
         NgonNgu nn = listNgonNgu.get(info.position);
 
+        //trang sửa
         if (item.getItemId() == R.id.menu_update) {
-            // Chuyển sang trang sửa
             Intent intent = new Intent(NgonNguActivity.this, UpdateNgonNguActivity.class);
             intent.putExtra("MaNN", nn.getMaNN());
             intent.putExtra("TenNN", nn.getTenNN());

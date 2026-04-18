@@ -23,7 +23,7 @@ public class UpdateNgonNguActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_ngon_ngu); // Dùng chung layout với Add
+        setContentView(R.layout.activity_add_ngon_ngu);
 
         etMaNN = findViewById(R.id.etMaNNNN);
         etTenNN = findViewById(R.id.etTenNNNN);
@@ -36,10 +36,8 @@ public class UpdateNgonNguActivity extends AppCompatActivity {
 
         ngonNguQuery = new NgonNguQuery(this);
 
-        // Sự kiện đóng
         imgClose.setOnClickListener(v -> finish());
 
-        // Lấy dữ liệu từ Intent
         maNN = getIntent().getStringExtra("MaNN");
         String tenNN = getIntent().getStringExtra("TenNN");
 

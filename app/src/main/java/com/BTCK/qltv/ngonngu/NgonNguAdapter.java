@@ -37,7 +37,6 @@ public class NgonNguAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            // Sử dụng layout có sẵn của Android gồm 2 dòng chữ
             convertView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2, parent, false);
         }
 
